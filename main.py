@@ -2,20 +2,20 @@
 from lexer import lexer
 from parser import parser
 from semantic import semantic_analysis, symbol_table
+from ir_generator import generate_ir
 
-# Sample input program
 data = """
 a = 3 + 4;
 b = a * 2;
 """
 
-# Lexical Analysis (Tokenization)
+# Lexical Analysis
 lexer.input(data)
 print("\nLexical Analysis:")
 for token in lexer:
     print(token)
 
-# Parsing (Syntax Analysis)
+# Parsing
 print("\nParsing:")
 ast = parser.parse(data)
 
@@ -28,5 +28,12 @@ else:
     try:
         semantic_analysis(ast)
         print("Semantic analysis passed! Symbol table:", symbol_table)
+        
+        # Intermediate Code Generation (IR)
+        print("\nGenerating Intermediate Representation (IR):")
+        _, ir_code = generate_ir(ast)
+        for instr in ir_code:
+            print(instr)
+
     except Exception as e:
         print("Semantic analysis error:", e)
