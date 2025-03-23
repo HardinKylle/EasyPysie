@@ -1,20 +1,17 @@
 import tkinter as tk
 from tkinter import scrolledtext, messagebox
-
-# Import your compiler modules
-from compiler import compile_code
+from compiler import compile_code  # Import the updated compiler
 
 def run_compiler():
     # Get the source code from the text area
-    source_code = source_text.get("1.0", tk.END)
-    try:
-        # Redirect output (for example, you could capture output into a variable)
-        # Here we simply call compile_code which prints its output
-        compile_code(source_code, target="python")
-        output_text.delete("1.0", tk.END)
-        output_text.insert(tk.END, "Compilation succeeded! Check the console for details.")
-    except Exception as e:
-        messagebox.showerror("Compilation Error", str(e))
+    source_code = source_text.get("1.0", tk.END).strip()
+
+    # Run the compiler and capture execution output
+    output = compile_code(source_code, target="python")  # Change target to "assembly" if needed
+
+    # Display the final execution output in the GUI
+    output_text.delete("1.0", tk.END)
+    output_text.insert(tk.END, output)
 
 # Create the main window
 root = tk.Tk()

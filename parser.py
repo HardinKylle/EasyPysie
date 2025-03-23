@@ -55,6 +55,10 @@ def p_expression_identifier(p):
     '''expression : IDENTIFIER'''
     p[0] = ('var', p[1])
 
+def p_statement_print(p):
+    '''statement : PRINT LPAREN expression RPAREN SEMICOLON'''
+    p[0] = ('print', p[3])
+
 # Error rule for syntax errors.
 def p_error(p):
     if p:

@@ -31,12 +31,18 @@ def generate_ir(node):
         instr = f"{var_name} = {expr_result}"
         return (var_name, expr_code + [instr])
     
+    
     elif node_type == 'program':
         code = []
         for stmt in node[1]:
             _, stmt_code = generate_ir(stmt)
             code.extend(stmt_code)
         return (None, code)
+    
+    elif node_type == 'print':
+        expr_result, expr_code = generate_ir(node[1])
+        instr = f"PRINT {expr_result}"  # IR representation
+        return (None, expr_code + [instr])
     
     else:
         raise NotImplementedError(f"IR generation not implemented for node type: {node_type}")
