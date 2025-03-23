@@ -52,11 +52,16 @@ def compile_code(source_code, target="python"):
     print(final_code)
 
 if __name__ == "__main__":
-    # Example source code (Can be replaced with input from a file)
-    source_code = """
-    a = 3 + 4;
-    b = a * 2;
-    """
+    if len(sys.argv) > 1:
+        filename = sys.argv[1]
+        with open(filename, 'r') as f:
+            source_code = f.read()
+    else:
+        # Default sample program:
+        source_code = """
+        a = 3 + 4;
+        b = a * 2;
+        """
 
-    target_language = "python"  # Change to "assembly" for assembly output
+    target_language = "assembly"  # Change to "assembly" for assembly output
     compile_code(source_code, target_language)
