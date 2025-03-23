@@ -20,7 +20,8 @@ reserved = {
     'for': 'FOR',
     'function': 'FUNCTION',
     'print': 'PRINT',
-    'input': 'INPUT'
+    'input': 'INPUT',
+    'return': 'RETURN'
 }
 
 tokens = tokens + list(reserved.values())
@@ -38,7 +39,7 @@ t_RBRACE    = r'\}'
 t_SEMICOLON = r';'
 t_COMMA     = r','
 
-# Operators that require more than a single character.
+# Multi-character operators.
 t_EQ        = r'=='
 t_NEQ       = r'!='
 t_LEQ       = r'<='
@@ -49,39 +50,38 @@ t_AND       = r'&&'
 t_OR        = r'\|\|'
 t_NOT       = r'!'
 
-# A regular expression rule with some action code for numbers.
+# Floating point numbers.
 def t_FLOAT(t):
     r'\d+\.\d+'
     t.value = float(t.value)
     return t
 
+# Integer numbers.
 def t_NUMBER(t):
     r'\d+'
     t.value = int(t.value)
     return t
 
-# Rule for string literals.
+# String literals.
 def t_STRING(t):
     r'\"([^\\\n]|(\\.))*?\"'
-    # Optionally strip quotes or handle escapes.
     t.value = t.value[1:-1]
     return t
 
-# Rule for identifiers and reserved words.
+# Identifiers and reserved words.
 def t_IDENTIFIER(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
-    t.type = reserved.get(t.value, 'IDENTIFIER')  # Check for reserved words.
+    t.type = reserved.get(t.value, 'IDENTIFIER')
     return t
 
-# Track line numbers.
+# Newline handling.
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
 
-# A string containing ignored characters (spaces and tabs).
-t_ignore  = ' \t'
+# Ignored characters (spaces and tabs).
+t_ignore = ' \t'
 
-# Error handling rule.
 def t_error(t):
     print(f"Illegal character '{t.value[0]}' at line {t.lexer.lineno}")
     t.lexer.skip(1)
@@ -89,14 +89,25 @@ def t_error(t):
 # Build the lexer.
 lexer = lex.lex()
 
-# Test the lexer with a sample input.
-data = '''
-function add(a, b) {
-    return a + b;
-}
-print("Result: " + add(3, 4));
-'''
-
-lexer.input(data)
-for tok in lexer:
-    print(tok)
+if __name__ == "__main__":
+    data = '''
+    function add(a, b) {
+        return a + b;
+    }
+    print("Result: " + add(3, 4));
+    if (a < 10) {
+        print("a is less than 10");
+    } else {
+        print("a is 10 or more");
+    }
+    while (a > 0) {
+        a = a - 1;
+    }
+    for (i = 0; i < 10; i = i + 1) {
+        print(i);
+    }
+    c = input();
+    '''
+    lexer.input(data)
+    for tok in lexer:
+        print(tok)
