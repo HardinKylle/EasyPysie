@@ -72,9 +72,9 @@ def execute_code(code):
         old_stdout = sys.stdout
         sys.stdout = captured_output = StringIO()
 
-        # Execute the code safely
+        # Use a single dictionary for globals/locals
         exec_env = {}
-        exec(code, {}, exec_env)
+        exec(code, exec_env)
 
         # Get captured output
         sys.stdout = old_stdout

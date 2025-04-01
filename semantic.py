@@ -23,6 +23,13 @@ def semantic_analysis(node):
         right_type = semantic_analysis(node[3])
 
         if operator in ('+', '-', '*', '/'):
+            if operator == '+':
+                if left_type == "string" and right_type == "string":
+                    return "string"  # Allow string concatenation
+                elif left_type in ('int', 'float') and right_type in ('int', 'float'):
+                    return 'float' if 'float' in (left_type, right_type) else 'int'
+                else:
+                    raise TypeError(f"Operator '+' not supported for {left_type} and {right_type}")
             if left_type not in ('int', 'float') or right_type not in ('int', 'float'):
                 raise TypeError(f"Operator '{operator}' requires numeric types, got {left_type} and {right_type}")
             return 'float' if left_type == 'float' or right_type == 'float' else 'int'
@@ -39,6 +46,16 @@ def semantic_analysis(node):
 
         else:
             raise NotImplementedError(f"Unknown operator: {operator}")
+
+    elif node_type == 'logic':  # Add support for logical operations
+        operator = node[1]
+        left_type = semantic_analysis(node[2])
+        right_type = semantic_analysis(node[3])
+
+        if operator in ('&&', '||'):
+            if left_type != 'bool' or right_type != 'bool':
+                raise TypeError(f"Logical operator '{operator}' requires boolean operands, got {left_type} and {right_type}")
+            return 'bool'
 
     elif node_type == 'number':
         return 'int'  # Assume integers; modify if floats are separately detected

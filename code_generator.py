@@ -5,6 +5,8 @@ def generate_code(ir_code):
             expr = instr.split("PRINT ")[1]
             python_code.append(f"print({expr})")  # Convert IR to Python
         else:
+            # Replace logical operators with Python equivalents
+            instr = instr.replace("&&", "and").replace("||", "or").replace("!", "not ")
             python_code.append(instr)
 
     return "\n".join(python_code)
