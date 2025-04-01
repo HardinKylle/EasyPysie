@@ -1,3 +1,5 @@
+#semantic.py
+
 symbol_table = {}  # Stores variable types
 
 def semantic_analysis(node):

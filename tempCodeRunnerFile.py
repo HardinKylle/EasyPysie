@@ -1,3 +1,5 @@
+#compiler_ui.py
+
 import tkinter as tk
 from tkinter import scrolledtext, messagebox
 from compiler import compile_code  # Import the updated compiler
