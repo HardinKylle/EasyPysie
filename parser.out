@@ -15,24 +15,24 @@ Rule 9     statement -> for_statement
 Rule 10    statement -> function_declaration
 Rule 11    statement -> return_statement
 Rule 12    statement -> input_statement
-Rule 13    assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON
+Rule 13    assignment_statement -> IDENTIFIER IS expression SEMICOLON
 Rule 14    assignment_expression -> IDENTIFIER ASSIGN expression
 Rule 15    expression_statement -> expression SEMICOLON
-Rule 16    print_statement -> PRINT LPAREN expression RPAREN SEMICOLON
-Rule 17    if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE
-Rule 18    if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
-Rule 19    while_statement -> WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE
-Rule 20    for_statement -> FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
-Rule 21    function_declaration -> FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
-Rule 22    parameter_list -> parameter_list COMMA IDENTIFIER
-Rule 23    parameter_list -> IDENTIFIER
-Rule 24    parameter_list -> empty
-Rule 25    argument_list -> argument_list COMMA expression
-Rule 26    argument_list -> expression
-Rule 27    argument_list -> empty
-Rule 28    expression -> IDENTIFIER LPAREN argument_list RPAREN
-Rule 29    return_statement -> RETURN expression SEMICOLON
-Rule 30    input_statement -> IDENTIFIER ASSIGN INPUT LPAREN RPAREN SEMICOLON
+Rule 16    print_statement -> SAY LPAREN expression RPAREN SEMICOLON
+Rule 17    input_statement -> IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON
+Rule 18    if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE
+Rule 19    if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE
+Rule 20    while_statement -> KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE
+Rule 21    for_statement -> REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
+Rule 22    function_declaration -> CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
+Rule 23    return_statement -> GIVE expression SEMICOLON
+Rule 24    parameter_list -> parameter_list COMMA IDENTIFIER
+Rule 25    parameter_list -> IDENTIFIER
+Rule 26    parameter_list -> empty
+Rule 27    argument_list -> argument_list COMMA expression
+Rule 28    argument_list -> expression
+Rule 29    argument_list -> empty
+Rule 30    expression -> IDENTIFIER LPAREN argument_list RPAREN
 Rule 31    expression -> expression PLUS expression
 Rule 32    expression -> expression MINUS expression
 Rule 33    expression -> expression TIMES expression
@@ -56,57 +56,58 @@ Rule 49    empty -> <empty>
 Terminals, with rules where they appear
 
 AND                  : 41
-ASSIGN               : 13 14 30
-COMMA                : 22 25
+ASK                  : 17
+ASSIGN               : 14
+CHECK                : 18 19
+COMMA                : 24 27
+CREATE               : 22
 DIVIDE               : 34
-ELSE                 : 18
 EQ                   : 35
 FLOAT                : 46
-FOR                  : 20
-FUNCTION             : 21
 GEQ                  : 40
+GIVE                 : 23
 GT                   : 38
-IDENTIFIER           : 13 14 21 22 23 28 30 48
-IF                   : 17 18
-INPUT                : 30
-LBRACE               : 17 18 18 19 20 21
+IDENTIFIER           : 13 14 17 22 24 25 30 48
+IS                   : 13 17
+KEEP                 : 20
+LBRACE               : 18 19 19 20 21 22
 LEQ                  : 39
-LPAREN               : 16 17 18 19 20 21 28 30 44
+LPAREN               : 16 17 18 19 20 21 22 30 44
 LT                   : 37
 MINUS                : 32
 NEQ                  : 36
 NOT                  : 43
 NUMBER               : 45
 OR                   : 42
+OTHERWISE            : 19
 PLUS                 : 31
-PRINT                : 16
-RBRACE               : 17 18 18 19 20 21
-RETURN               : 29
-RPAREN               : 16 17 18 19 20 21 28 30 44
-SEMICOLON            : 13 15 16 20 20 29 30
+RBRACE               : 18 19 19 20 21 22
+REPEAT               : 21
+RPAREN               : 16 17 18 19 20 21 22 30 44
+SAY                  : 16
+SEMICOLON            : 13 15 16 17 21 21 23
 STRING               : 47
 TIMES                : 33
-WHILE                : 19
 error                : 
 
 Nonterminals, with rules where they appear
 
-argument_list        : 25 28
-assignment_expression : 20 20
+argument_list        : 27 30
+assignment_expression : 21 21
 assignment_statement : 4
-empty                : 24 27
-expression           : 13 14 15 16 17 18 19 20 25 26 29 31 31 32 32 33 33 34 34 35 35 36 36 37 37 38 38 39 39 40 40 41 41 42 42 43 44
+empty                : 26 29
+expression           : 13 14 15 16 18 19 20 21 23 27 28 31 31 32 32 33 33 34 34 35 35 36 36 37 37 38 38 39 39 40 40 41 41 42 42 43 44
 expression_statement : 5
 for_statement        : 9
 function_declaration : 10
 if_statement         : 7
 input_statement      : 12
-parameter_list       : 21 22
+parameter_list       : 22 24
 print_statement      : 6
 program              : 0
 return_statement     : 11
 statement            : 2 3
-statement_list       : 1 2 17 18 18 19 20 21
+statement_list       : 1 2 18 19 19 20 21 22
 while_statement      : 8
 
 Parsing method: LALR
@@ -126,17 +127,17 @@ state 0
     (10) statement -> . function_declaration
     (11) statement -> . return_statement
     (12) statement -> . input_statement
-    (13) assignment_statement -> . IDENTIFIER ASSIGN expression SEMICOLON
+    (13) assignment_statement -> . IDENTIFIER IS expression SEMICOLON
     (15) expression_statement -> . expression SEMICOLON
-    (16) print_statement -> . PRINT LPAREN expression RPAREN SEMICOLON
-    (17) if_statement -> . IF LPAREN expression RPAREN LBRACE statement_list RBRACE
-    (18) if_statement -> . IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
-    (19) while_statement -> . WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE
-    (20) for_statement -> . FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
-    (21) function_declaration -> . FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
-    (29) return_statement -> . RETURN expression SEMICOLON
-    (30) input_statement -> . IDENTIFIER ASSIGN INPUT LPAREN RPAREN SEMICOLON
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (16) print_statement -> . SAY LPAREN expression RPAREN SEMICOLON
+    (18) if_statement -> . CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE
+    (19) if_statement -> . CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE
+    (20) while_statement -> . KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE
+    (21) for_statement -> . REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
+    (22) function_declaration -> . CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
+    (23) return_statement -> . GIVE expression SEMICOLON
+    (17) input_statement -> . IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -157,12 +158,12 @@ state 0
     (48) expression -> . IDENTIFIER
 
     IDENTIFIER      shift and go to state 13
-    PRINT           shift and go to state 15
-    IF              shift and go to state 17
-    WHILE           shift and go to state 18
-    FOR             shift and go to state 19
-    FUNCTION        shift and go to state 20
-    RETURN          shift and go to state 21
+    SAY             shift and go to state 15
+    CHECK           shift and go to state 17
+    KEEP            shift and go to state 18
+    REPEAT          shift and go to state 19
+    CREATE          shift and go to state 20
+    GIVE            shift and go to state 21
     NOT             shift and go to state 22
     LPAREN          shift and go to state 16
     NUMBER          shift and go to state 23
@@ -202,17 +203,17 @@ state 2
     (10) statement -> . function_declaration
     (11) statement -> . return_statement
     (12) statement -> . input_statement
-    (13) assignment_statement -> . IDENTIFIER ASSIGN expression SEMICOLON
+    (13) assignment_statement -> . IDENTIFIER IS expression SEMICOLON
     (15) expression_statement -> . expression SEMICOLON
-    (16) print_statement -> . PRINT LPAREN expression RPAREN SEMICOLON
-    (17) if_statement -> . IF LPAREN expression RPAREN LBRACE statement_list RBRACE
-    (18) if_statement -> . IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
-    (19) while_statement -> . WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE
-    (20) for_statement -> . FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
-    (21) function_declaration -> . FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
-    (29) return_statement -> . RETURN expression SEMICOLON
-    (30) input_statement -> . IDENTIFIER ASSIGN INPUT LPAREN RPAREN SEMICOLON
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (16) print_statement -> . SAY LPAREN expression RPAREN SEMICOLON
+    (18) if_statement -> . CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE
+    (19) if_statement -> . CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE
+    (20) while_statement -> . KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE
+    (21) for_statement -> . REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
+    (22) function_declaration -> . CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
+    (23) return_statement -> . GIVE expression SEMICOLON
+    (17) input_statement -> . IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -234,12 +235,12 @@ state 2
 
     $end            reduce using rule 1 (program -> statement_list .)
     IDENTIFIER      shift and go to state 13
-    PRINT           shift and go to state 15
-    IF              shift and go to state 17
-    WHILE           shift and go to state 18
-    FOR             shift and go to state 19
-    FUNCTION        shift and go to state 20
-    RETURN          shift and go to state 21
+    SAY             shift and go to state 15
+    CHECK           shift and go to state 17
+    KEEP            shift and go to state 18
+    REPEAT          shift and go to state 19
+    CREATE          shift and go to state 20
+    GIVE            shift and go to state 21
     NOT             shift and go to state 22
     LPAREN          shift and go to state 16
     NUMBER          shift and go to state 23
@@ -263,12 +264,12 @@ state 3
     (3) statement_list -> statement .
 
     IDENTIFIER      reduce using rule 3 (statement_list -> statement .)
-    PRINT           reduce using rule 3 (statement_list -> statement .)
-    IF              reduce using rule 3 (statement_list -> statement .)
-    WHILE           reduce using rule 3 (statement_list -> statement .)
-    FOR             reduce using rule 3 (statement_list -> statement .)
-    FUNCTION        reduce using rule 3 (statement_list -> statement .)
-    RETURN          reduce using rule 3 (statement_list -> statement .)
+    SAY             reduce using rule 3 (statement_list -> statement .)
+    CHECK           reduce using rule 3 (statement_list -> statement .)
+    KEEP            reduce using rule 3 (statement_list -> statement .)
+    REPEAT          reduce using rule 3 (statement_list -> statement .)
+    CREATE          reduce using rule 3 (statement_list -> statement .)
+    GIVE            reduce using rule 3 (statement_list -> statement .)
     NOT             reduce using rule 3 (statement_list -> statement .)
     LPAREN          reduce using rule 3 (statement_list -> statement .)
     NUMBER          reduce using rule 3 (statement_list -> statement .)
@@ -283,12 +284,12 @@ state 4
     (4) statement -> assignment_statement .
 
     IDENTIFIER      reduce using rule 4 (statement -> assignment_statement .)
-    PRINT           reduce using rule 4 (statement -> assignment_statement .)
-    IF              reduce using rule 4 (statement -> assignment_statement .)
-    WHILE           reduce using rule 4 (statement -> assignment_statement .)
-    FOR             reduce using rule 4 (statement -> assignment_statement .)
-    FUNCTION        reduce using rule 4 (statement -> assignment_statement .)
-    RETURN          reduce using rule 4 (statement -> assignment_statement .)
+    SAY             reduce using rule 4 (statement -> assignment_statement .)
+    CHECK           reduce using rule 4 (statement -> assignment_statement .)
+    KEEP            reduce using rule 4 (statement -> assignment_statement .)
+    REPEAT          reduce using rule 4 (statement -> assignment_statement .)
+    CREATE          reduce using rule 4 (statement -> assignment_statement .)
+    GIVE            reduce using rule 4 (statement -> assignment_statement .)
     NOT             reduce using rule 4 (statement -> assignment_statement .)
     LPAREN          reduce using rule 4 (statement -> assignment_statement .)
     NUMBER          reduce using rule 4 (statement -> assignment_statement .)
@@ -303,12 +304,12 @@ state 5
     (5) statement -> expression_statement .
 
     IDENTIFIER      reduce using rule 5 (statement -> expression_statement .)
-    PRINT           reduce using rule 5 (statement -> expression_statement .)
-    IF              reduce using rule 5 (statement -> expression_statement .)
-    WHILE           reduce using rule 5 (statement -> expression_statement .)
-    FOR             reduce using rule 5 (statement -> expression_statement .)
-    FUNCTION        reduce using rule 5 (statement -> expression_statement .)
-    RETURN          reduce using rule 5 (statement -> expression_statement .)
+    SAY             reduce using rule 5 (statement -> expression_statement .)
+    CHECK           reduce using rule 5 (statement -> expression_statement .)
+    KEEP            reduce using rule 5 (statement -> expression_statement .)
+    REPEAT          reduce using rule 5 (statement -> expression_statement .)
+    CREATE          reduce using rule 5 (statement -> expression_statement .)
+    GIVE            reduce using rule 5 (statement -> expression_statement .)
     NOT             reduce using rule 5 (statement -> expression_statement .)
     LPAREN          reduce using rule 5 (statement -> expression_statement .)
     NUMBER          reduce using rule 5 (statement -> expression_statement .)
@@ -323,12 +324,12 @@ state 6
     (6) statement -> print_statement .
 
     IDENTIFIER      reduce using rule 6 (statement -> print_statement .)
-    PRINT           reduce using rule 6 (statement -> print_statement .)
-    IF              reduce using rule 6 (statement -> print_statement .)
-    WHILE           reduce using rule 6 (statement -> print_statement .)
-    FOR             reduce using rule 6 (statement -> print_statement .)
-    FUNCTION        reduce using rule 6 (statement -> print_statement .)
-    RETURN          reduce using rule 6 (statement -> print_statement .)
+    SAY             reduce using rule 6 (statement -> print_statement .)
+    CHECK           reduce using rule 6 (statement -> print_statement .)
+    KEEP            reduce using rule 6 (statement -> print_statement .)
+    REPEAT          reduce using rule 6 (statement -> print_statement .)
+    CREATE          reduce using rule 6 (statement -> print_statement .)
+    GIVE            reduce using rule 6 (statement -> print_statement .)
     NOT             reduce using rule 6 (statement -> print_statement .)
     LPAREN          reduce using rule 6 (statement -> print_statement .)
     NUMBER          reduce using rule 6 (statement -> print_statement .)
@@ -343,12 +344,12 @@ state 7
     (7) statement -> if_statement .
 
     IDENTIFIER      reduce using rule 7 (statement -> if_statement .)
-    PRINT           reduce using rule 7 (statement -> if_statement .)
-    IF              reduce using rule 7 (statement -> if_statement .)
-    WHILE           reduce using rule 7 (statement -> if_statement .)
-    FOR             reduce using rule 7 (statement -> if_statement .)
-    FUNCTION        reduce using rule 7 (statement -> if_statement .)
-    RETURN          reduce using rule 7 (statement -> if_statement .)
+    SAY             reduce using rule 7 (statement -> if_statement .)
+    CHECK           reduce using rule 7 (statement -> if_statement .)
+    KEEP            reduce using rule 7 (statement -> if_statement .)
+    REPEAT          reduce using rule 7 (statement -> if_statement .)
+    CREATE          reduce using rule 7 (statement -> if_statement .)
+    GIVE            reduce using rule 7 (statement -> if_statement .)
     NOT             reduce using rule 7 (statement -> if_statement .)
     LPAREN          reduce using rule 7 (statement -> if_statement .)
     NUMBER          reduce using rule 7 (statement -> if_statement .)
@@ -363,12 +364,12 @@ state 8
     (8) statement -> while_statement .
 
     IDENTIFIER      reduce using rule 8 (statement -> while_statement .)
-    PRINT           reduce using rule 8 (statement -> while_statement .)
-    IF              reduce using rule 8 (statement -> while_statement .)
-    WHILE           reduce using rule 8 (statement -> while_statement .)
-    FOR             reduce using rule 8 (statement -> while_statement .)
-    FUNCTION        reduce using rule 8 (statement -> while_statement .)
-    RETURN          reduce using rule 8 (statement -> while_statement .)
+    SAY             reduce using rule 8 (statement -> while_statement .)
+    CHECK           reduce using rule 8 (statement -> while_statement .)
+    KEEP            reduce using rule 8 (statement -> while_statement .)
+    REPEAT          reduce using rule 8 (statement -> while_statement .)
+    CREATE          reduce using rule 8 (statement -> while_statement .)
+    GIVE            reduce using rule 8 (statement -> while_statement .)
     NOT             reduce using rule 8 (statement -> while_statement .)
     LPAREN          reduce using rule 8 (statement -> while_statement .)
     NUMBER          reduce using rule 8 (statement -> while_statement .)
@@ -383,12 +384,12 @@ state 9
     (9) statement -> for_statement .
 
     IDENTIFIER      reduce using rule 9 (statement -> for_statement .)
-    PRINT           reduce using rule 9 (statement -> for_statement .)
-    IF              reduce using rule 9 (statement -> for_statement .)
-    WHILE           reduce using rule 9 (statement -> for_statement .)
-    FOR             reduce using rule 9 (statement -> for_statement .)
-    FUNCTION        reduce using rule 9 (statement -> for_statement .)
-    RETURN          reduce using rule 9 (statement -> for_statement .)
+    SAY             reduce using rule 9 (statement -> for_statement .)
+    CHECK           reduce using rule 9 (statement -> for_statement .)
+    KEEP            reduce using rule 9 (statement -> for_statement .)
+    REPEAT          reduce using rule 9 (statement -> for_statement .)
+    CREATE          reduce using rule 9 (statement -> for_statement .)
+    GIVE            reduce using rule 9 (statement -> for_statement .)
     NOT             reduce using rule 9 (statement -> for_statement .)
     LPAREN          reduce using rule 9 (statement -> for_statement .)
     NUMBER          reduce using rule 9 (statement -> for_statement .)
@@ -403,12 +404,12 @@ state 10
     (10) statement -> function_declaration .
 
     IDENTIFIER      reduce using rule 10 (statement -> function_declaration .)
-    PRINT           reduce using rule 10 (statement -> function_declaration .)
-    IF              reduce using rule 10 (statement -> function_declaration .)
-    WHILE           reduce using rule 10 (statement -> function_declaration .)
-    FOR             reduce using rule 10 (statement -> function_declaration .)
-    FUNCTION        reduce using rule 10 (statement -> function_declaration .)
-    RETURN          reduce using rule 10 (statement -> function_declaration .)
+    SAY             reduce using rule 10 (statement -> function_declaration .)
+    CHECK           reduce using rule 10 (statement -> function_declaration .)
+    KEEP            reduce using rule 10 (statement -> function_declaration .)
+    REPEAT          reduce using rule 10 (statement -> function_declaration .)
+    CREATE          reduce using rule 10 (statement -> function_declaration .)
+    GIVE            reduce using rule 10 (statement -> function_declaration .)
     NOT             reduce using rule 10 (statement -> function_declaration .)
     LPAREN          reduce using rule 10 (statement -> function_declaration .)
     NUMBER          reduce using rule 10 (statement -> function_declaration .)
@@ -423,12 +424,12 @@ state 11
     (11) statement -> return_statement .
 
     IDENTIFIER      reduce using rule 11 (statement -> return_statement .)
-    PRINT           reduce using rule 11 (statement -> return_statement .)
-    IF              reduce using rule 11 (statement -> return_statement .)
-    WHILE           reduce using rule 11 (statement -> return_statement .)
-    FOR             reduce using rule 11 (statement -> return_statement .)
-    FUNCTION        reduce using rule 11 (statement -> return_statement .)
-    RETURN          reduce using rule 11 (statement -> return_statement .)
+    SAY             reduce using rule 11 (statement -> return_statement .)
+    CHECK           reduce using rule 11 (statement -> return_statement .)
+    KEEP            reduce using rule 11 (statement -> return_statement .)
+    REPEAT          reduce using rule 11 (statement -> return_statement .)
+    CREATE          reduce using rule 11 (statement -> return_statement .)
+    GIVE            reduce using rule 11 (statement -> return_statement .)
     NOT             reduce using rule 11 (statement -> return_statement .)
     LPAREN          reduce using rule 11 (statement -> return_statement .)
     NUMBER          reduce using rule 11 (statement -> return_statement .)
@@ -443,12 +444,12 @@ state 12
     (12) statement -> input_statement .
 
     IDENTIFIER      reduce using rule 12 (statement -> input_statement .)
-    PRINT           reduce using rule 12 (statement -> input_statement .)
-    IF              reduce using rule 12 (statement -> input_statement .)
-    WHILE           reduce using rule 12 (statement -> input_statement .)
-    FOR             reduce using rule 12 (statement -> input_statement .)
-    FUNCTION        reduce using rule 12 (statement -> input_statement .)
-    RETURN          reduce using rule 12 (statement -> input_statement .)
+    SAY             reduce using rule 12 (statement -> input_statement .)
+    CHECK           reduce using rule 12 (statement -> input_statement .)
+    KEEP            reduce using rule 12 (statement -> input_statement .)
+    REPEAT          reduce using rule 12 (statement -> input_statement .)
+    CREATE          reduce using rule 12 (statement -> input_statement .)
+    GIVE            reduce using rule 12 (statement -> input_statement .)
     NOT             reduce using rule 12 (statement -> input_statement .)
     LPAREN          reduce using rule 12 (statement -> input_statement .)
     NUMBER          reduce using rule 12 (statement -> input_statement .)
@@ -460,12 +461,12 @@ state 12
 
 state 13
 
-    (13) assignment_statement -> IDENTIFIER . ASSIGN expression SEMICOLON
-    (30) input_statement -> IDENTIFIER . ASSIGN INPUT LPAREN RPAREN SEMICOLON
-    (28) expression -> IDENTIFIER . LPAREN argument_list RPAREN
+    (13) assignment_statement -> IDENTIFIER . IS expression SEMICOLON
+    (17) input_statement -> IDENTIFIER . IS ASK LPAREN RPAREN SEMICOLON
+    (30) expression -> IDENTIFIER . LPAREN argument_list RPAREN
     (48) expression -> IDENTIFIER .
 
-    ASSIGN          shift and go to state 27
+    IS              shift and go to state 27
     LPAREN          shift and go to state 28
     SEMICOLON       reduce using rule 48 (expression -> IDENTIFIER .)
     PLUS            reduce using rule 48 (expression -> IDENTIFIER .)
@@ -515,7 +516,7 @@ state 14
 
 state 15
 
-    (16) print_statement -> PRINT . LPAREN expression RPAREN SEMICOLON
+    (16) print_statement -> SAY . LPAREN expression RPAREN SEMICOLON
 
     LPAREN          shift and go to state 42
 
@@ -523,7 +524,7 @@ state 15
 state 16
 
     (44) expression -> LPAREN . expression RPAREN
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -554,37 +555,37 @@ state 16
 
 state 17
 
-    (17) if_statement -> IF . LPAREN expression RPAREN LBRACE statement_list RBRACE
-    (18) if_statement -> IF . LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
+    (18) if_statement -> CHECK . LPAREN expression RPAREN LBRACE statement_list RBRACE
+    (19) if_statement -> CHECK . LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE
 
     LPAREN          shift and go to state 45
 
 
 state 18
 
-    (19) while_statement -> WHILE . LPAREN expression RPAREN LBRACE statement_list RBRACE
+    (20) while_statement -> KEEP . LPAREN expression RPAREN LBRACE statement_list RBRACE
 
     LPAREN          shift and go to state 46
 
 
 state 19
 
-    (20) for_statement -> FOR . LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
+    (21) for_statement -> REPEAT . LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
 
     LPAREN          shift and go to state 47
 
 
 state 20
 
-    (21) function_declaration -> FUNCTION . IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
+    (22) function_declaration -> CREATE . IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
 
     IDENTIFIER      shift and go to state 48
 
 
 state 21
 
-    (29) return_statement -> RETURN . expression SEMICOLON
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (23) return_statement -> GIVE . expression SEMICOLON
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -616,7 +617,7 @@ state 21
 state 22
 
     (43) expression -> NOT . expression
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -713,12 +714,12 @@ state 26
     (2) statement_list -> statement_list statement .
 
     IDENTIFIER      reduce using rule 2 (statement_list -> statement_list statement .)
-    PRINT           reduce using rule 2 (statement_list -> statement_list statement .)
-    IF              reduce using rule 2 (statement_list -> statement_list statement .)
-    WHILE           reduce using rule 2 (statement_list -> statement_list statement .)
-    FOR             reduce using rule 2 (statement_list -> statement_list statement .)
-    FUNCTION        reduce using rule 2 (statement_list -> statement_list statement .)
-    RETURN          reduce using rule 2 (statement_list -> statement_list statement .)
+    SAY             reduce using rule 2 (statement_list -> statement_list statement .)
+    CHECK           reduce using rule 2 (statement_list -> statement_list statement .)
+    KEEP            reduce using rule 2 (statement_list -> statement_list statement .)
+    REPEAT          reduce using rule 2 (statement_list -> statement_list statement .)
+    CREATE          reduce using rule 2 (statement_list -> statement_list statement .)
+    GIVE            reduce using rule 2 (statement_list -> statement_list statement .)
     NOT             reduce using rule 2 (statement_list -> statement_list statement .)
     LPAREN          reduce using rule 2 (statement_list -> statement_list statement .)
     NUMBER          reduce using rule 2 (statement_list -> statement_list statement .)
@@ -730,9 +731,9 @@ state 26
 
 state 27
 
-    (13) assignment_statement -> IDENTIFIER ASSIGN . expression SEMICOLON
-    (30) input_statement -> IDENTIFIER ASSIGN . INPUT LPAREN RPAREN SEMICOLON
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (13) assignment_statement -> IDENTIFIER IS . expression SEMICOLON
+    (17) input_statement -> IDENTIFIER IS . ASK LPAREN RPAREN SEMICOLON
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -752,7 +753,7 @@ state 27
     (47) expression -> . STRING
     (48) expression -> . IDENTIFIER
 
-    INPUT           shift and go to state 52
+    ASK             shift and go to state 52
     IDENTIFIER      shift and go to state 44
     NOT             shift and go to state 22
     LPAREN          shift and go to state 16
@@ -764,11 +765,11 @@ state 27
 
 state 28
 
-    (28) expression -> IDENTIFIER LPAREN . argument_list RPAREN
-    (25) argument_list -> . argument_list COMMA expression
-    (26) argument_list -> . expression
-    (27) argument_list -> . empty
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (30) expression -> IDENTIFIER LPAREN . argument_list RPAREN
+    (27) argument_list -> . argument_list COMMA expression
+    (28) argument_list -> . expression
+    (29) argument_list -> . empty
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -807,12 +808,12 @@ state 29
     (15) expression_statement -> expression SEMICOLON .
 
     IDENTIFIER      reduce using rule 15 (expression_statement -> expression SEMICOLON .)
-    PRINT           reduce using rule 15 (expression_statement -> expression SEMICOLON .)
-    IF              reduce using rule 15 (expression_statement -> expression SEMICOLON .)
-    WHILE           reduce using rule 15 (expression_statement -> expression SEMICOLON .)
-    FOR             reduce using rule 15 (expression_statement -> expression SEMICOLON .)
-    FUNCTION        reduce using rule 15 (expression_statement -> expression SEMICOLON .)
-    RETURN          reduce using rule 15 (expression_statement -> expression SEMICOLON .)
+    SAY             reduce using rule 15 (expression_statement -> expression SEMICOLON .)
+    CHECK           reduce using rule 15 (expression_statement -> expression SEMICOLON .)
+    KEEP            reduce using rule 15 (expression_statement -> expression SEMICOLON .)
+    REPEAT          reduce using rule 15 (expression_statement -> expression SEMICOLON .)
+    CREATE          reduce using rule 15 (expression_statement -> expression SEMICOLON .)
+    GIVE            reduce using rule 15 (expression_statement -> expression SEMICOLON .)
     NOT             reduce using rule 15 (expression_statement -> expression SEMICOLON .)
     LPAREN          reduce using rule 15 (expression_statement -> expression SEMICOLON .)
     NUMBER          reduce using rule 15 (expression_statement -> expression SEMICOLON .)
@@ -825,7 +826,7 @@ state 29
 state 30
 
     (31) expression -> expression PLUS . expression
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -857,7 +858,7 @@ state 30
 state 31
 
     (32) expression -> expression MINUS . expression
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -889,7 +890,7 @@ state 31
 state 32
 
     (33) expression -> expression TIMES . expression
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -921,7 +922,7 @@ state 32
 state 33
 
     (34) expression -> expression DIVIDE . expression
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -953,7 +954,7 @@ state 33
 state 34
 
     (35) expression -> expression EQ . expression
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -985,7 +986,7 @@ state 34
 state 35
 
     (36) expression -> expression NEQ . expression
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -1017,7 +1018,7 @@ state 35
 state 36
 
     (37) expression -> expression LT . expression
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -1049,7 +1050,7 @@ state 36
 state 37
 
     (38) expression -> expression GT . expression
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -1081,7 +1082,7 @@ state 37
 state 38
 
     (39) expression -> expression LEQ . expression
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -1113,7 +1114,7 @@ state 38
 state 39
 
     (40) expression -> expression GEQ . expression
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -1145,7 +1146,7 @@ state 39
 state 40
 
     (41) expression -> expression AND . expression
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -1177,7 +1178,7 @@ state 40
 state 41
 
     (42) expression -> expression OR . expression
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -1208,8 +1209,8 @@ state 41
 
 state 42
 
-    (16) print_statement -> PRINT LPAREN . expression RPAREN SEMICOLON
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (16) print_statement -> SAY LPAREN . expression RPAREN SEMICOLON
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -1271,7 +1272,7 @@ state 43
 
 state 44
 
-    (28) expression -> IDENTIFIER . LPAREN argument_list RPAREN
+    (30) expression -> IDENTIFIER . LPAREN argument_list RPAREN
     (48) expression -> IDENTIFIER .
 
     LPAREN          shift and go to state 28
@@ -1294,9 +1295,9 @@ state 44
 
 state 45
 
-    (17) if_statement -> IF LPAREN . expression RPAREN LBRACE statement_list RBRACE
-    (18) if_statement -> IF LPAREN . expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (18) if_statement -> CHECK LPAREN . expression RPAREN LBRACE statement_list RBRACE
+    (19) if_statement -> CHECK LPAREN . expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -1327,8 +1328,8 @@ state 45
 
 state 46
 
-    (19) while_statement -> WHILE LPAREN . expression RPAREN LBRACE statement_list RBRACE
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (20) while_statement -> KEEP LPAREN . expression RPAREN LBRACE statement_list RBRACE
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -1359,7 +1360,7 @@ state 46
 
 state 47
 
-    (20) for_statement -> FOR LPAREN . assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
+    (21) for_statement -> REPEAT LPAREN . assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
     (14) assignment_expression -> . IDENTIFIER ASSIGN expression
 
     IDENTIFIER      shift and go to state 73
@@ -1368,14 +1369,14 @@ state 47
 
 state 48
 
-    (21) function_declaration -> FUNCTION IDENTIFIER . LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
+    (22) function_declaration -> CREATE IDENTIFIER . LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
 
     LPAREN          shift and go to state 74
 
 
 state 49
 
-    (29) return_statement -> RETURN expression . SEMICOLON
+    (23) return_statement -> GIVE expression . SEMICOLON
     (31) expression -> expression . PLUS expression
     (32) expression -> expression . MINUS expression
     (33) expression -> expression . TIMES expression
@@ -1452,7 +1453,7 @@ state 50
 
 state 51
 
-    (13) assignment_statement -> IDENTIFIER ASSIGN expression . SEMICOLON
+    (13) assignment_statement -> IDENTIFIER IS expression . SEMICOLON
     (31) expression -> expression . PLUS expression
     (32) expression -> expression . MINUS expression
     (33) expression -> expression . TIMES expression
@@ -1483,15 +1484,15 @@ state 51
 
 state 52
 
-    (30) input_statement -> IDENTIFIER ASSIGN INPUT . LPAREN RPAREN SEMICOLON
+    (17) input_statement -> IDENTIFIER IS ASK . LPAREN RPAREN SEMICOLON
 
     LPAREN          shift and go to state 77
 
 
 state 53
 
-    (28) expression -> IDENTIFIER LPAREN argument_list . RPAREN
-    (25) argument_list -> argument_list . COMMA expression
+    (30) expression -> IDENTIFIER LPAREN argument_list . RPAREN
+    (27) argument_list -> argument_list . COMMA expression
 
     RPAREN          shift and go to state 78
     COMMA           shift and go to state 79
@@ -1499,7 +1500,7 @@ state 53
 
 state 54
 
-    (26) argument_list -> expression .
+    (28) argument_list -> expression .
     (31) expression -> expression . PLUS expression
     (32) expression -> expression . MINUS expression
     (33) expression -> expression . TIMES expression
@@ -1513,8 +1514,8 @@ state 54
     (41) expression -> expression . AND expression
     (42) expression -> expression . OR expression
 
-    RPAREN          reduce using rule 26 (argument_list -> expression .)
-    COMMA           reduce using rule 26 (argument_list -> expression .)
+    RPAREN          reduce using rule 28 (argument_list -> expression .)
+    COMMA           reduce using rule 28 (argument_list -> expression .)
     PLUS            shift and go to state 30
     MINUS           shift and go to state 31
     TIMES           shift and go to state 32
@@ -1531,10 +1532,10 @@ state 54
 
 state 55
 
-    (27) argument_list -> empty .
+    (29) argument_list -> empty .
 
-    RPAREN          reduce using rule 27 (argument_list -> empty .)
-    COMMA           reduce using rule 27 (argument_list -> empty .)
+    RPAREN          reduce using rule 29 (argument_list -> empty .)
+    COMMA           reduce using rule 29 (argument_list -> empty .)
 
 
 state 56
@@ -2163,7 +2164,7 @@ state 67
 
 state 68
 
-    (16) print_statement -> PRINT LPAREN expression . RPAREN SEMICOLON
+    (16) print_statement -> SAY LPAREN expression . RPAREN SEMICOLON
     (31) expression -> expression . PLUS expression
     (32) expression -> expression . MINUS expression
     (33) expression -> expression . TIMES expression
@@ -2215,8 +2216,8 @@ state 69
 
 state 70
 
-    (17) if_statement -> IF LPAREN expression . RPAREN LBRACE statement_list RBRACE
-    (18) if_statement -> IF LPAREN expression . RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
+    (18) if_statement -> CHECK LPAREN expression . RPAREN LBRACE statement_list RBRACE
+    (19) if_statement -> CHECK LPAREN expression . RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE
     (31) expression -> expression . PLUS expression
     (32) expression -> expression . MINUS expression
     (33) expression -> expression . TIMES expression
@@ -2247,7 +2248,7 @@ state 70
 
 state 71
 
-    (19) while_statement -> WHILE LPAREN expression . RPAREN LBRACE statement_list RBRACE
+    (20) while_statement -> KEEP LPAREN expression . RPAREN LBRACE statement_list RBRACE
     (31) expression -> expression . PLUS expression
     (32) expression -> expression . MINUS expression
     (33) expression -> expression . TIMES expression
@@ -2278,7 +2279,7 @@ state 71
 
 state 72
 
-    (20) for_statement -> FOR LPAREN assignment_expression . SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
+    (21) for_statement -> REPEAT LPAREN assignment_expression . SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
 
     SEMICOLON       shift and go to state 83
 
@@ -2292,10 +2293,10 @@ state 73
 
 state 74
 
-    (21) function_declaration -> FUNCTION IDENTIFIER LPAREN . parameter_list RPAREN LBRACE statement_list RBRACE
-    (22) parameter_list -> . parameter_list COMMA IDENTIFIER
-    (23) parameter_list -> . IDENTIFIER
-    (24) parameter_list -> . empty
+    (22) function_declaration -> CREATE IDENTIFIER LPAREN . parameter_list RPAREN LBRACE statement_list RBRACE
+    (24) parameter_list -> . parameter_list COMMA IDENTIFIER
+    (25) parameter_list -> . IDENTIFIER
+    (26) parameter_list -> . empty
     (49) empty -> .
 
     IDENTIFIER      shift and go to state 85
@@ -2307,76 +2308,76 @@ state 74
 
 state 75
 
-    (29) return_statement -> RETURN expression SEMICOLON .
+    (23) return_statement -> GIVE expression SEMICOLON .
 
-    IDENTIFIER      reduce using rule 29 (return_statement -> RETURN expression SEMICOLON .)
-    PRINT           reduce using rule 29 (return_statement -> RETURN expression SEMICOLON .)
-    IF              reduce using rule 29 (return_statement -> RETURN expression SEMICOLON .)
-    WHILE           reduce using rule 29 (return_statement -> RETURN expression SEMICOLON .)
-    FOR             reduce using rule 29 (return_statement -> RETURN expression SEMICOLON .)
-    FUNCTION        reduce using rule 29 (return_statement -> RETURN expression SEMICOLON .)
-    RETURN          reduce using rule 29 (return_statement -> RETURN expression SEMICOLON .)
-    NOT             reduce using rule 29 (return_statement -> RETURN expression SEMICOLON .)
-    LPAREN          reduce using rule 29 (return_statement -> RETURN expression SEMICOLON .)
-    NUMBER          reduce using rule 29 (return_statement -> RETURN expression SEMICOLON .)
-    FLOAT           reduce using rule 29 (return_statement -> RETURN expression SEMICOLON .)
-    STRING          reduce using rule 29 (return_statement -> RETURN expression SEMICOLON .)
-    $end            reduce using rule 29 (return_statement -> RETURN expression SEMICOLON .)
-    RBRACE          reduce using rule 29 (return_statement -> RETURN expression SEMICOLON .)
+    IDENTIFIER      reduce using rule 23 (return_statement -> GIVE expression SEMICOLON .)
+    SAY             reduce using rule 23 (return_statement -> GIVE expression SEMICOLON .)
+    CHECK           reduce using rule 23 (return_statement -> GIVE expression SEMICOLON .)
+    KEEP            reduce using rule 23 (return_statement -> GIVE expression SEMICOLON .)
+    REPEAT          reduce using rule 23 (return_statement -> GIVE expression SEMICOLON .)
+    CREATE          reduce using rule 23 (return_statement -> GIVE expression SEMICOLON .)
+    GIVE            reduce using rule 23 (return_statement -> GIVE expression SEMICOLON .)
+    NOT             reduce using rule 23 (return_statement -> GIVE expression SEMICOLON .)
+    LPAREN          reduce using rule 23 (return_statement -> GIVE expression SEMICOLON .)
+    NUMBER          reduce using rule 23 (return_statement -> GIVE expression SEMICOLON .)
+    FLOAT           reduce using rule 23 (return_statement -> GIVE expression SEMICOLON .)
+    STRING          reduce using rule 23 (return_statement -> GIVE expression SEMICOLON .)
+    $end            reduce using rule 23 (return_statement -> GIVE expression SEMICOLON .)
+    RBRACE          reduce using rule 23 (return_statement -> GIVE expression SEMICOLON .)
 
 
 state 76
 
-    (13) assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .
+    (13) assignment_statement -> IDENTIFIER IS expression SEMICOLON .
 
-    IDENTIFIER      reduce using rule 13 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-    PRINT           reduce using rule 13 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-    IF              reduce using rule 13 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-    WHILE           reduce using rule 13 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-    FOR             reduce using rule 13 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-    FUNCTION        reduce using rule 13 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-    RETURN          reduce using rule 13 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-    NOT             reduce using rule 13 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-    LPAREN          reduce using rule 13 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-    NUMBER          reduce using rule 13 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-    FLOAT           reduce using rule 13 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-    STRING          reduce using rule 13 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-    $end            reduce using rule 13 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-    RBRACE          reduce using rule 13 (assignment_statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
+    IDENTIFIER      reduce using rule 13 (assignment_statement -> IDENTIFIER IS expression SEMICOLON .)
+    SAY             reduce using rule 13 (assignment_statement -> IDENTIFIER IS expression SEMICOLON .)
+    CHECK           reduce using rule 13 (assignment_statement -> IDENTIFIER IS expression SEMICOLON .)
+    KEEP            reduce using rule 13 (assignment_statement -> IDENTIFIER IS expression SEMICOLON .)
+    REPEAT          reduce using rule 13 (assignment_statement -> IDENTIFIER IS expression SEMICOLON .)
+    CREATE          reduce using rule 13 (assignment_statement -> IDENTIFIER IS expression SEMICOLON .)
+    GIVE            reduce using rule 13 (assignment_statement -> IDENTIFIER IS expression SEMICOLON .)
+    NOT             reduce using rule 13 (assignment_statement -> IDENTIFIER IS expression SEMICOLON .)
+    LPAREN          reduce using rule 13 (assignment_statement -> IDENTIFIER IS expression SEMICOLON .)
+    NUMBER          reduce using rule 13 (assignment_statement -> IDENTIFIER IS expression SEMICOLON .)
+    FLOAT           reduce using rule 13 (assignment_statement -> IDENTIFIER IS expression SEMICOLON .)
+    STRING          reduce using rule 13 (assignment_statement -> IDENTIFIER IS expression SEMICOLON .)
+    $end            reduce using rule 13 (assignment_statement -> IDENTIFIER IS expression SEMICOLON .)
+    RBRACE          reduce using rule 13 (assignment_statement -> IDENTIFIER IS expression SEMICOLON .)
 
 
 state 77
 
-    (30) input_statement -> IDENTIFIER ASSIGN INPUT LPAREN . RPAREN SEMICOLON
+    (17) input_statement -> IDENTIFIER IS ASK LPAREN . RPAREN SEMICOLON
 
     RPAREN          shift and go to state 88
 
 
 state 78
 
-    (28) expression -> IDENTIFIER LPAREN argument_list RPAREN .
+    (30) expression -> IDENTIFIER LPAREN argument_list RPAREN .
 
-    SEMICOLON       reduce using rule 28 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
-    PLUS            reduce using rule 28 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
-    MINUS           reduce using rule 28 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
-    TIMES           reduce using rule 28 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
-    DIVIDE          reduce using rule 28 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
-    EQ              reduce using rule 28 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
-    NEQ             reduce using rule 28 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
-    LT              reduce using rule 28 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
-    GT              reduce using rule 28 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
-    LEQ             reduce using rule 28 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
-    GEQ             reduce using rule 28 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
-    AND             reduce using rule 28 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
-    OR              reduce using rule 28 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
-    RPAREN          reduce using rule 28 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
-    COMMA           reduce using rule 28 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
+    SEMICOLON       reduce using rule 30 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
+    PLUS            reduce using rule 30 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
+    MINUS           reduce using rule 30 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
+    TIMES           reduce using rule 30 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
+    DIVIDE          reduce using rule 30 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
+    EQ              reduce using rule 30 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
+    NEQ             reduce using rule 30 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
+    LT              reduce using rule 30 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
+    GT              reduce using rule 30 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
+    LEQ             reduce using rule 30 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
+    GEQ             reduce using rule 30 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
+    AND             reduce using rule 30 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
+    OR              reduce using rule 30 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
+    RPAREN          reduce using rule 30 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
+    COMMA           reduce using rule 30 (expression -> IDENTIFIER LPAREN argument_list RPAREN .)
 
 
 state 79
 
-    (25) argument_list -> argument_list COMMA . expression
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (27) argument_list -> argument_list COMMA . expression
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -2407,30 +2408,30 @@ state 79
 
 state 80
 
-    (16) print_statement -> PRINT LPAREN expression RPAREN . SEMICOLON
+    (16) print_statement -> SAY LPAREN expression RPAREN . SEMICOLON
 
     SEMICOLON       shift and go to state 90
 
 
 state 81
 
-    (17) if_statement -> IF LPAREN expression RPAREN . LBRACE statement_list RBRACE
-    (18) if_statement -> IF LPAREN expression RPAREN . LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
+    (18) if_statement -> CHECK LPAREN expression RPAREN . LBRACE statement_list RBRACE
+    (19) if_statement -> CHECK LPAREN expression RPAREN . LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE
 
     LBRACE          shift and go to state 91
 
 
 state 82
 
-    (19) while_statement -> WHILE LPAREN expression RPAREN . LBRACE statement_list RBRACE
+    (20) while_statement -> KEEP LPAREN expression RPAREN . LBRACE statement_list RBRACE
 
     LBRACE          shift and go to state 92
 
 
 state 83
 
-    (20) for_statement -> FOR LPAREN assignment_expression SEMICOLON . expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (21) for_statement -> REPEAT LPAREN assignment_expression SEMICOLON . expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -2462,7 +2463,7 @@ state 83
 state 84
 
     (14) assignment_expression -> IDENTIFIER ASSIGN . expression
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -2493,16 +2494,16 @@ state 84
 
 state 85
 
-    (23) parameter_list -> IDENTIFIER .
+    (25) parameter_list -> IDENTIFIER .
 
-    RPAREN          reduce using rule 23 (parameter_list -> IDENTIFIER .)
-    COMMA           reduce using rule 23 (parameter_list -> IDENTIFIER .)
+    RPAREN          reduce using rule 25 (parameter_list -> IDENTIFIER .)
+    COMMA           reduce using rule 25 (parameter_list -> IDENTIFIER .)
 
 
 state 86
 
-    (21) function_declaration -> FUNCTION IDENTIFIER LPAREN parameter_list . RPAREN LBRACE statement_list RBRACE
-    (22) parameter_list -> parameter_list . COMMA IDENTIFIER
+    (22) function_declaration -> CREATE IDENTIFIER LPAREN parameter_list . RPAREN LBRACE statement_list RBRACE
+    (24) parameter_list -> parameter_list . COMMA IDENTIFIER
 
     RPAREN          shift and go to state 95
     COMMA           shift and go to state 96
@@ -2510,22 +2511,22 @@ state 86
 
 state 87
 
-    (24) parameter_list -> empty .
+    (26) parameter_list -> empty .
 
-    RPAREN          reduce using rule 24 (parameter_list -> empty .)
-    COMMA           reduce using rule 24 (parameter_list -> empty .)
+    RPAREN          reduce using rule 26 (parameter_list -> empty .)
+    COMMA           reduce using rule 26 (parameter_list -> empty .)
 
 
 state 88
 
-    (30) input_statement -> IDENTIFIER ASSIGN INPUT LPAREN RPAREN . SEMICOLON
+    (17) input_statement -> IDENTIFIER IS ASK LPAREN RPAREN . SEMICOLON
 
     SEMICOLON       shift and go to state 97
 
 
 state 89
 
-    (25) argument_list -> argument_list COMMA expression .
+    (27) argument_list -> argument_list COMMA expression .
     (31) expression -> expression . PLUS expression
     (32) expression -> expression . MINUS expression
     (33) expression -> expression . TIMES expression
@@ -2539,8 +2540,8 @@ state 89
     (41) expression -> expression . AND expression
     (42) expression -> expression . OR expression
 
-    RPAREN          reduce using rule 25 (argument_list -> argument_list COMMA expression .)
-    COMMA           reduce using rule 25 (argument_list -> argument_list COMMA expression .)
+    RPAREN          reduce using rule 27 (argument_list -> argument_list COMMA expression .)
+    COMMA           reduce using rule 27 (argument_list -> argument_list COMMA expression .)
     PLUS            shift and go to state 30
     MINUS           shift and go to state 31
     TIMES           shift and go to state 32
@@ -2557,28 +2558,28 @@ state 89
 
 state 90
 
-    (16) print_statement -> PRINT LPAREN expression RPAREN SEMICOLON .
+    (16) print_statement -> SAY LPAREN expression RPAREN SEMICOLON .
 
-    IDENTIFIER      reduce using rule 16 (print_statement -> PRINT LPAREN expression RPAREN SEMICOLON .)
-    PRINT           reduce using rule 16 (print_statement -> PRINT LPAREN expression RPAREN SEMICOLON .)
-    IF              reduce using rule 16 (print_statement -> PRINT LPAREN expression RPAREN SEMICOLON .)
-    WHILE           reduce using rule 16 (print_statement -> PRINT LPAREN expression RPAREN SEMICOLON .)
-    FOR             reduce using rule 16 (print_statement -> PRINT LPAREN expression RPAREN SEMICOLON .)
-    FUNCTION        reduce using rule 16 (print_statement -> PRINT LPAREN expression RPAREN SEMICOLON .)
-    RETURN          reduce using rule 16 (print_statement -> PRINT LPAREN expression RPAREN SEMICOLON .)
-    NOT             reduce using rule 16 (print_statement -> PRINT LPAREN expression RPAREN SEMICOLON .)
-    LPAREN          reduce using rule 16 (print_statement -> PRINT LPAREN expression RPAREN SEMICOLON .)
-    NUMBER          reduce using rule 16 (print_statement -> PRINT LPAREN expression RPAREN SEMICOLON .)
-    FLOAT           reduce using rule 16 (print_statement -> PRINT LPAREN expression RPAREN SEMICOLON .)
-    STRING          reduce using rule 16 (print_statement -> PRINT LPAREN expression RPAREN SEMICOLON .)
-    $end            reduce using rule 16 (print_statement -> PRINT LPAREN expression RPAREN SEMICOLON .)
-    RBRACE          reduce using rule 16 (print_statement -> PRINT LPAREN expression RPAREN SEMICOLON .)
+    IDENTIFIER      reduce using rule 16 (print_statement -> SAY LPAREN expression RPAREN SEMICOLON .)
+    SAY             reduce using rule 16 (print_statement -> SAY LPAREN expression RPAREN SEMICOLON .)
+    CHECK           reduce using rule 16 (print_statement -> SAY LPAREN expression RPAREN SEMICOLON .)
+    KEEP            reduce using rule 16 (print_statement -> SAY LPAREN expression RPAREN SEMICOLON .)
+    REPEAT          reduce using rule 16 (print_statement -> SAY LPAREN expression RPAREN SEMICOLON .)
+    CREATE          reduce using rule 16 (print_statement -> SAY LPAREN expression RPAREN SEMICOLON .)
+    GIVE            reduce using rule 16 (print_statement -> SAY LPAREN expression RPAREN SEMICOLON .)
+    NOT             reduce using rule 16 (print_statement -> SAY LPAREN expression RPAREN SEMICOLON .)
+    LPAREN          reduce using rule 16 (print_statement -> SAY LPAREN expression RPAREN SEMICOLON .)
+    NUMBER          reduce using rule 16 (print_statement -> SAY LPAREN expression RPAREN SEMICOLON .)
+    FLOAT           reduce using rule 16 (print_statement -> SAY LPAREN expression RPAREN SEMICOLON .)
+    STRING          reduce using rule 16 (print_statement -> SAY LPAREN expression RPAREN SEMICOLON .)
+    $end            reduce using rule 16 (print_statement -> SAY LPAREN expression RPAREN SEMICOLON .)
+    RBRACE          reduce using rule 16 (print_statement -> SAY LPAREN expression RPAREN SEMICOLON .)
 
 
 state 91
 
-    (17) if_statement -> IF LPAREN expression RPAREN LBRACE . statement_list RBRACE
-    (18) if_statement -> IF LPAREN expression RPAREN LBRACE . statement_list RBRACE ELSE LBRACE statement_list RBRACE
+    (18) if_statement -> CHECK LPAREN expression RPAREN LBRACE . statement_list RBRACE
+    (19) if_statement -> CHECK LPAREN expression RPAREN LBRACE . statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE
     (2) statement_list -> . statement_list statement
     (3) statement_list -> . statement
     (4) statement -> . assignment_statement
@@ -2590,17 +2591,17 @@ state 91
     (10) statement -> . function_declaration
     (11) statement -> . return_statement
     (12) statement -> . input_statement
-    (13) assignment_statement -> . IDENTIFIER ASSIGN expression SEMICOLON
+    (13) assignment_statement -> . IDENTIFIER IS expression SEMICOLON
     (15) expression_statement -> . expression SEMICOLON
-    (16) print_statement -> . PRINT LPAREN expression RPAREN SEMICOLON
-    (17) if_statement -> . IF LPAREN expression RPAREN LBRACE statement_list RBRACE
-    (18) if_statement -> . IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
-    (19) while_statement -> . WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE
-    (20) for_statement -> . FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
-    (21) function_declaration -> . FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
-    (29) return_statement -> . RETURN expression SEMICOLON
-    (30) input_statement -> . IDENTIFIER ASSIGN INPUT LPAREN RPAREN SEMICOLON
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (16) print_statement -> . SAY LPAREN expression RPAREN SEMICOLON
+    (18) if_statement -> . CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE
+    (19) if_statement -> . CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE
+    (20) while_statement -> . KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE
+    (21) for_statement -> . REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
+    (22) function_declaration -> . CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
+    (23) return_statement -> . GIVE expression SEMICOLON
+    (17) input_statement -> . IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -2621,12 +2622,12 @@ state 91
     (48) expression -> . IDENTIFIER
 
     IDENTIFIER      shift and go to state 13
-    PRINT           shift and go to state 15
-    IF              shift and go to state 17
-    WHILE           shift and go to state 18
-    FOR             shift and go to state 19
-    FUNCTION        shift and go to state 20
-    RETURN          shift and go to state 21
+    SAY             shift and go to state 15
+    CHECK           shift and go to state 17
+    KEEP            shift and go to state 18
+    REPEAT          shift and go to state 19
+    CREATE          shift and go to state 20
+    GIVE            shift and go to state 21
     NOT             shift and go to state 22
     LPAREN          shift and go to state 16
     NUMBER          shift and go to state 23
@@ -2648,7 +2649,7 @@ state 91
 
 state 92
 
-    (19) while_statement -> WHILE LPAREN expression RPAREN LBRACE . statement_list RBRACE
+    (20) while_statement -> KEEP LPAREN expression RPAREN LBRACE . statement_list RBRACE
     (2) statement_list -> . statement_list statement
     (3) statement_list -> . statement
     (4) statement -> . assignment_statement
@@ -2660,17 +2661,17 @@ state 92
     (10) statement -> . function_declaration
     (11) statement -> . return_statement
     (12) statement -> . input_statement
-    (13) assignment_statement -> . IDENTIFIER ASSIGN expression SEMICOLON
+    (13) assignment_statement -> . IDENTIFIER IS expression SEMICOLON
     (15) expression_statement -> . expression SEMICOLON
-    (16) print_statement -> . PRINT LPAREN expression RPAREN SEMICOLON
-    (17) if_statement -> . IF LPAREN expression RPAREN LBRACE statement_list RBRACE
-    (18) if_statement -> . IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
-    (19) while_statement -> . WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE
-    (20) for_statement -> . FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
-    (21) function_declaration -> . FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
-    (29) return_statement -> . RETURN expression SEMICOLON
-    (30) input_statement -> . IDENTIFIER ASSIGN INPUT LPAREN RPAREN SEMICOLON
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (16) print_statement -> . SAY LPAREN expression RPAREN SEMICOLON
+    (18) if_statement -> . CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE
+    (19) if_statement -> . CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE
+    (20) while_statement -> . KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE
+    (21) for_statement -> . REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
+    (22) function_declaration -> . CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
+    (23) return_statement -> . GIVE expression SEMICOLON
+    (17) input_statement -> . IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -2691,12 +2692,12 @@ state 92
     (48) expression -> . IDENTIFIER
 
     IDENTIFIER      shift and go to state 13
-    PRINT           shift and go to state 15
-    IF              shift and go to state 17
-    WHILE           shift and go to state 18
-    FOR             shift and go to state 19
-    FUNCTION        shift and go to state 20
-    RETURN          shift and go to state 21
+    SAY             shift and go to state 15
+    CHECK           shift and go to state 17
+    KEEP            shift and go to state 18
+    REPEAT          shift and go to state 19
+    CREATE          shift and go to state 20
+    GIVE            shift and go to state 21
     NOT             shift and go to state 22
     LPAREN          shift and go to state 16
     NUMBER          shift and go to state 23
@@ -2718,7 +2719,7 @@ state 92
 
 state 93
 
-    (20) for_statement -> FOR LPAREN assignment_expression SEMICOLON expression . SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
+    (21) for_statement -> REPEAT LPAREN assignment_expression SEMICOLON expression . SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
     (31) expression -> expression . PLUS expression
     (32) expression -> expression . MINUS expression
     (33) expression -> expression . TIMES expression
@@ -2781,42 +2782,42 @@ state 94
 
 state 95
 
-    (21) function_declaration -> FUNCTION IDENTIFIER LPAREN parameter_list RPAREN . LBRACE statement_list RBRACE
+    (22) function_declaration -> CREATE IDENTIFIER LPAREN parameter_list RPAREN . LBRACE statement_list RBRACE
 
     LBRACE          shift and go to state 101
 
 
 state 96
 
-    (22) parameter_list -> parameter_list COMMA . IDENTIFIER
+    (24) parameter_list -> parameter_list COMMA . IDENTIFIER
 
     IDENTIFIER      shift and go to state 102
 
 
 state 97
 
-    (30) input_statement -> IDENTIFIER ASSIGN INPUT LPAREN RPAREN SEMICOLON .
+    (17) input_statement -> IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON .
 
-    IDENTIFIER      reduce using rule 30 (input_statement -> IDENTIFIER ASSIGN INPUT LPAREN RPAREN SEMICOLON .)
-    PRINT           reduce using rule 30 (input_statement -> IDENTIFIER ASSIGN INPUT LPAREN RPAREN SEMICOLON .)
-    IF              reduce using rule 30 (input_statement -> IDENTIFIER ASSIGN INPUT LPAREN RPAREN SEMICOLON .)
-    WHILE           reduce using rule 30 (input_statement -> IDENTIFIER ASSIGN INPUT LPAREN RPAREN SEMICOLON .)
-    FOR             reduce using rule 30 (input_statement -> IDENTIFIER ASSIGN INPUT LPAREN RPAREN SEMICOLON .)
-    FUNCTION        reduce using rule 30 (input_statement -> IDENTIFIER ASSIGN INPUT LPAREN RPAREN SEMICOLON .)
-    RETURN          reduce using rule 30 (input_statement -> IDENTIFIER ASSIGN INPUT LPAREN RPAREN SEMICOLON .)
-    NOT             reduce using rule 30 (input_statement -> IDENTIFIER ASSIGN INPUT LPAREN RPAREN SEMICOLON .)
-    LPAREN          reduce using rule 30 (input_statement -> IDENTIFIER ASSIGN INPUT LPAREN RPAREN SEMICOLON .)
-    NUMBER          reduce using rule 30 (input_statement -> IDENTIFIER ASSIGN INPUT LPAREN RPAREN SEMICOLON .)
-    FLOAT           reduce using rule 30 (input_statement -> IDENTIFIER ASSIGN INPUT LPAREN RPAREN SEMICOLON .)
-    STRING          reduce using rule 30 (input_statement -> IDENTIFIER ASSIGN INPUT LPAREN RPAREN SEMICOLON .)
-    $end            reduce using rule 30 (input_statement -> IDENTIFIER ASSIGN INPUT LPAREN RPAREN SEMICOLON .)
-    RBRACE          reduce using rule 30 (input_statement -> IDENTIFIER ASSIGN INPUT LPAREN RPAREN SEMICOLON .)
+    IDENTIFIER      reduce using rule 17 (input_statement -> IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON .)
+    SAY             reduce using rule 17 (input_statement -> IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON .)
+    CHECK           reduce using rule 17 (input_statement -> IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON .)
+    KEEP            reduce using rule 17 (input_statement -> IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON .)
+    REPEAT          reduce using rule 17 (input_statement -> IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON .)
+    CREATE          reduce using rule 17 (input_statement -> IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON .)
+    GIVE            reduce using rule 17 (input_statement -> IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON .)
+    NOT             reduce using rule 17 (input_statement -> IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON .)
+    LPAREN          reduce using rule 17 (input_statement -> IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON .)
+    NUMBER          reduce using rule 17 (input_statement -> IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON .)
+    FLOAT           reduce using rule 17 (input_statement -> IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON .)
+    STRING          reduce using rule 17 (input_statement -> IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON .)
+    $end            reduce using rule 17 (input_statement -> IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON .)
+    RBRACE          reduce using rule 17 (input_statement -> IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON .)
 
 
 state 98
 
-    (17) if_statement -> IF LPAREN expression RPAREN LBRACE statement_list . RBRACE
-    (18) if_statement -> IF LPAREN expression RPAREN LBRACE statement_list . RBRACE ELSE LBRACE statement_list RBRACE
+    (18) if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list . RBRACE
+    (19) if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list . RBRACE OTHERWISE LBRACE statement_list RBRACE
     (2) statement_list -> statement_list . statement
     (4) statement -> . assignment_statement
     (5) statement -> . expression_statement
@@ -2827,17 +2828,17 @@ state 98
     (10) statement -> . function_declaration
     (11) statement -> . return_statement
     (12) statement -> . input_statement
-    (13) assignment_statement -> . IDENTIFIER ASSIGN expression SEMICOLON
+    (13) assignment_statement -> . IDENTIFIER IS expression SEMICOLON
     (15) expression_statement -> . expression SEMICOLON
-    (16) print_statement -> . PRINT LPAREN expression RPAREN SEMICOLON
-    (17) if_statement -> . IF LPAREN expression RPAREN LBRACE statement_list RBRACE
-    (18) if_statement -> . IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
-    (19) while_statement -> . WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE
-    (20) for_statement -> . FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
-    (21) function_declaration -> . FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
-    (29) return_statement -> . RETURN expression SEMICOLON
-    (30) input_statement -> . IDENTIFIER ASSIGN INPUT LPAREN RPAREN SEMICOLON
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (16) print_statement -> . SAY LPAREN expression RPAREN SEMICOLON
+    (18) if_statement -> . CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE
+    (19) if_statement -> . CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE
+    (20) while_statement -> . KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE
+    (21) for_statement -> . REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
+    (22) function_declaration -> . CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
+    (23) return_statement -> . GIVE expression SEMICOLON
+    (17) input_statement -> . IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -2859,12 +2860,12 @@ state 98
 
     RBRACE          shift and go to state 103
     IDENTIFIER      shift and go to state 13
-    PRINT           shift and go to state 15
-    IF              shift and go to state 17
-    WHILE           shift and go to state 18
-    FOR             shift and go to state 19
-    FUNCTION        shift and go to state 20
-    RETURN          shift and go to state 21
+    SAY             shift and go to state 15
+    CHECK           shift and go to state 17
+    KEEP            shift and go to state 18
+    REPEAT          shift and go to state 19
+    CREATE          shift and go to state 20
+    GIVE            shift and go to state 21
     NOT             shift and go to state 22
     LPAREN          shift and go to state 16
     NUMBER          shift and go to state 23
@@ -2885,7 +2886,7 @@ state 98
 
 state 99
 
-    (19) while_statement -> WHILE LPAREN expression RPAREN LBRACE statement_list . RBRACE
+    (20) while_statement -> KEEP LPAREN expression RPAREN LBRACE statement_list . RBRACE
     (2) statement_list -> statement_list . statement
     (4) statement -> . assignment_statement
     (5) statement -> . expression_statement
@@ -2896,17 +2897,17 @@ state 99
     (10) statement -> . function_declaration
     (11) statement -> . return_statement
     (12) statement -> . input_statement
-    (13) assignment_statement -> . IDENTIFIER ASSIGN expression SEMICOLON
+    (13) assignment_statement -> . IDENTIFIER IS expression SEMICOLON
     (15) expression_statement -> . expression SEMICOLON
-    (16) print_statement -> . PRINT LPAREN expression RPAREN SEMICOLON
-    (17) if_statement -> . IF LPAREN expression RPAREN LBRACE statement_list RBRACE
-    (18) if_statement -> . IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
-    (19) while_statement -> . WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE
-    (20) for_statement -> . FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
-    (21) function_declaration -> . FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
-    (29) return_statement -> . RETURN expression SEMICOLON
-    (30) input_statement -> . IDENTIFIER ASSIGN INPUT LPAREN RPAREN SEMICOLON
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (16) print_statement -> . SAY LPAREN expression RPAREN SEMICOLON
+    (18) if_statement -> . CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE
+    (19) if_statement -> . CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE
+    (20) while_statement -> . KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE
+    (21) for_statement -> . REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
+    (22) function_declaration -> . CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
+    (23) return_statement -> . GIVE expression SEMICOLON
+    (17) input_statement -> . IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -2928,12 +2929,12 @@ state 99
 
     RBRACE          shift and go to state 104
     IDENTIFIER      shift and go to state 13
-    PRINT           shift and go to state 15
-    IF              shift and go to state 17
-    WHILE           shift and go to state 18
-    FOR             shift and go to state 19
-    FUNCTION        shift and go to state 20
-    RETURN          shift and go to state 21
+    SAY             shift and go to state 15
+    CHECK           shift and go to state 17
+    KEEP            shift and go to state 18
+    REPEAT          shift and go to state 19
+    CREATE          shift and go to state 20
+    GIVE            shift and go to state 21
     NOT             shift and go to state 22
     LPAREN          shift and go to state 16
     NUMBER          shift and go to state 23
@@ -2954,7 +2955,7 @@ state 99
 
 state 100
 
-    (20) for_statement -> FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON . assignment_expression RPAREN LBRACE statement_list RBRACE
+    (21) for_statement -> REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON . assignment_expression RPAREN LBRACE statement_list RBRACE
     (14) assignment_expression -> . IDENTIFIER ASSIGN expression
 
     IDENTIFIER      shift and go to state 73
@@ -2963,7 +2964,7 @@ state 100
 
 state 101
 
-    (21) function_declaration -> FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE . statement_list RBRACE
+    (22) function_declaration -> CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE . statement_list RBRACE
     (2) statement_list -> . statement_list statement
     (3) statement_list -> . statement
     (4) statement -> . assignment_statement
@@ -2975,17 +2976,17 @@ state 101
     (10) statement -> . function_declaration
     (11) statement -> . return_statement
     (12) statement -> . input_statement
-    (13) assignment_statement -> . IDENTIFIER ASSIGN expression SEMICOLON
+    (13) assignment_statement -> . IDENTIFIER IS expression SEMICOLON
     (15) expression_statement -> . expression SEMICOLON
-    (16) print_statement -> . PRINT LPAREN expression RPAREN SEMICOLON
-    (17) if_statement -> . IF LPAREN expression RPAREN LBRACE statement_list RBRACE
-    (18) if_statement -> . IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
-    (19) while_statement -> . WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE
-    (20) for_statement -> . FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
-    (21) function_declaration -> . FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
-    (29) return_statement -> . RETURN expression SEMICOLON
-    (30) input_statement -> . IDENTIFIER ASSIGN INPUT LPAREN RPAREN SEMICOLON
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (16) print_statement -> . SAY LPAREN expression RPAREN SEMICOLON
+    (18) if_statement -> . CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE
+    (19) if_statement -> . CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE
+    (20) while_statement -> . KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE
+    (21) for_statement -> . REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
+    (22) function_declaration -> . CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
+    (23) return_statement -> . GIVE expression SEMICOLON
+    (17) input_statement -> . IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -3006,12 +3007,12 @@ state 101
     (48) expression -> . IDENTIFIER
 
     IDENTIFIER      shift and go to state 13
-    PRINT           shift and go to state 15
-    IF              shift and go to state 17
-    WHILE           shift and go to state 18
-    FOR             shift and go to state 19
-    FUNCTION        shift and go to state 20
-    RETURN          shift and go to state 21
+    SAY             shift and go to state 15
+    CHECK           shift and go to state 17
+    KEEP            shift and go to state 18
+    REPEAT          shift and go to state 19
+    CREATE          shift and go to state 20
+    GIVE            shift and go to state 21
     NOT             shift and go to state 22
     LPAREN          shift and go to state 16
     NUMBER          shift and go to state 23
@@ -3033,64 +3034,64 @@ state 101
 
 state 102
 
-    (22) parameter_list -> parameter_list COMMA IDENTIFIER .
+    (24) parameter_list -> parameter_list COMMA IDENTIFIER .
 
-    RPAREN          reduce using rule 22 (parameter_list -> parameter_list COMMA IDENTIFIER .)
-    COMMA           reduce using rule 22 (parameter_list -> parameter_list COMMA IDENTIFIER .)
+    RPAREN          reduce using rule 24 (parameter_list -> parameter_list COMMA IDENTIFIER .)
+    COMMA           reduce using rule 24 (parameter_list -> parameter_list COMMA IDENTIFIER .)
 
 
 state 103
 
-    (17) if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE .
-    (18) if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE . ELSE LBRACE statement_list RBRACE
+    (18) if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE .
+    (19) if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE . OTHERWISE LBRACE statement_list RBRACE
 
-    IDENTIFIER      reduce using rule 17 (if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE .)
-    PRINT           reduce using rule 17 (if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE .)
-    IF              reduce using rule 17 (if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE .)
-    WHILE           reduce using rule 17 (if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE .)
-    FOR             reduce using rule 17 (if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE .)
-    FUNCTION        reduce using rule 17 (if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE .)
-    RETURN          reduce using rule 17 (if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE .)
-    NOT             reduce using rule 17 (if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE .)
-    LPAREN          reduce using rule 17 (if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE .)
-    NUMBER          reduce using rule 17 (if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE .)
-    FLOAT           reduce using rule 17 (if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE .)
-    STRING          reduce using rule 17 (if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE .)
-    $end            reduce using rule 17 (if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE .)
-    RBRACE          reduce using rule 17 (if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE .)
-    ELSE            shift and go to state 107
+    IDENTIFIER      reduce using rule 18 (if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE .)
+    SAY             reduce using rule 18 (if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE .)
+    CHECK           reduce using rule 18 (if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE .)
+    KEEP            reduce using rule 18 (if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE .)
+    REPEAT          reduce using rule 18 (if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE .)
+    CREATE          reduce using rule 18 (if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE .)
+    GIVE            reduce using rule 18 (if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE .)
+    NOT             reduce using rule 18 (if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE .)
+    LPAREN          reduce using rule 18 (if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE .)
+    NUMBER          reduce using rule 18 (if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE .)
+    FLOAT           reduce using rule 18 (if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE .)
+    STRING          reduce using rule 18 (if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE .)
+    $end            reduce using rule 18 (if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE .)
+    RBRACE          reduce using rule 18 (if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE .)
+    OTHERWISE       shift and go to state 107
 
 
 state 104
 
-    (19) while_statement -> WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE .
+    (20) while_statement -> KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE .
 
-    IDENTIFIER      reduce using rule 19 (while_statement -> WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE .)
-    PRINT           reduce using rule 19 (while_statement -> WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE .)
-    IF              reduce using rule 19 (while_statement -> WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE .)
-    WHILE           reduce using rule 19 (while_statement -> WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE .)
-    FOR             reduce using rule 19 (while_statement -> WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE .)
-    FUNCTION        reduce using rule 19 (while_statement -> WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE .)
-    RETURN          reduce using rule 19 (while_statement -> WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE .)
-    NOT             reduce using rule 19 (while_statement -> WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE .)
-    LPAREN          reduce using rule 19 (while_statement -> WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE .)
-    NUMBER          reduce using rule 19 (while_statement -> WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE .)
-    FLOAT           reduce using rule 19 (while_statement -> WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE .)
-    STRING          reduce using rule 19 (while_statement -> WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE .)
-    $end            reduce using rule 19 (while_statement -> WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE .)
-    RBRACE          reduce using rule 19 (while_statement -> WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE .)
+    IDENTIFIER      reduce using rule 20 (while_statement -> KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE .)
+    SAY             reduce using rule 20 (while_statement -> KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE .)
+    CHECK           reduce using rule 20 (while_statement -> KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE .)
+    KEEP            reduce using rule 20 (while_statement -> KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE .)
+    REPEAT          reduce using rule 20 (while_statement -> KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE .)
+    CREATE          reduce using rule 20 (while_statement -> KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE .)
+    GIVE            reduce using rule 20 (while_statement -> KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE .)
+    NOT             reduce using rule 20 (while_statement -> KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE .)
+    LPAREN          reduce using rule 20 (while_statement -> KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE .)
+    NUMBER          reduce using rule 20 (while_statement -> KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE .)
+    FLOAT           reduce using rule 20 (while_statement -> KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE .)
+    STRING          reduce using rule 20 (while_statement -> KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE .)
+    $end            reduce using rule 20 (while_statement -> KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE .)
+    RBRACE          reduce using rule 20 (while_statement -> KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE .)
 
 
 state 105
 
-    (20) for_statement -> FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression . RPAREN LBRACE statement_list RBRACE
+    (21) for_statement -> REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression . RPAREN LBRACE statement_list RBRACE
 
     RPAREN          shift and go to state 108
 
 
 state 106
 
-    (21) function_declaration -> FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list . RBRACE
+    (22) function_declaration -> CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list . RBRACE
     (2) statement_list -> statement_list . statement
     (4) statement -> . assignment_statement
     (5) statement -> . expression_statement
@@ -3101,17 +3102,17 @@ state 106
     (10) statement -> . function_declaration
     (11) statement -> . return_statement
     (12) statement -> . input_statement
-    (13) assignment_statement -> . IDENTIFIER ASSIGN expression SEMICOLON
+    (13) assignment_statement -> . IDENTIFIER IS expression SEMICOLON
     (15) expression_statement -> . expression SEMICOLON
-    (16) print_statement -> . PRINT LPAREN expression RPAREN SEMICOLON
-    (17) if_statement -> . IF LPAREN expression RPAREN LBRACE statement_list RBRACE
-    (18) if_statement -> . IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
-    (19) while_statement -> . WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE
-    (20) for_statement -> . FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
-    (21) function_declaration -> . FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
-    (29) return_statement -> . RETURN expression SEMICOLON
-    (30) input_statement -> . IDENTIFIER ASSIGN INPUT LPAREN RPAREN SEMICOLON
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (16) print_statement -> . SAY LPAREN expression RPAREN SEMICOLON
+    (18) if_statement -> . CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE
+    (19) if_statement -> . CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE
+    (20) while_statement -> . KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE
+    (21) for_statement -> . REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
+    (22) function_declaration -> . CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
+    (23) return_statement -> . GIVE expression SEMICOLON
+    (17) input_statement -> . IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -3133,12 +3134,12 @@ state 106
 
     RBRACE          shift and go to state 109
     IDENTIFIER      shift and go to state 13
-    PRINT           shift and go to state 15
-    IF              shift and go to state 17
-    WHILE           shift and go to state 18
-    FOR             shift and go to state 19
-    FUNCTION        shift and go to state 20
-    RETURN          shift and go to state 21
+    SAY             shift and go to state 15
+    CHECK           shift and go to state 17
+    KEEP            shift and go to state 18
+    REPEAT          shift and go to state 19
+    CREATE          shift and go to state 20
+    GIVE            shift and go to state 21
     NOT             shift and go to state 22
     LPAREN          shift and go to state 16
     NUMBER          shift and go to state 23
@@ -3159,41 +3160,41 @@ state 106
 
 state 107
 
-    (18) if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE . LBRACE statement_list RBRACE
+    (19) if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE . LBRACE statement_list RBRACE
 
     LBRACE          shift and go to state 110
 
 
 state 108
 
-    (20) for_statement -> FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN . LBRACE statement_list RBRACE
+    (21) for_statement -> REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN . LBRACE statement_list RBRACE
 
     LBRACE          shift and go to state 111
 
 
 state 109
 
-    (21) function_declaration -> FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .
+    (22) function_declaration -> CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .
 
-    IDENTIFIER      reduce using rule 21 (function_declaration -> FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .)
-    PRINT           reduce using rule 21 (function_declaration -> FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .)
-    IF              reduce using rule 21 (function_declaration -> FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .)
-    WHILE           reduce using rule 21 (function_declaration -> FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .)
-    FOR             reduce using rule 21 (function_declaration -> FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .)
-    FUNCTION        reduce using rule 21 (function_declaration -> FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .)
-    RETURN          reduce using rule 21 (function_declaration -> FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .)
-    NOT             reduce using rule 21 (function_declaration -> FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .)
-    LPAREN          reduce using rule 21 (function_declaration -> FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .)
-    NUMBER          reduce using rule 21 (function_declaration -> FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .)
-    FLOAT           reduce using rule 21 (function_declaration -> FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .)
-    STRING          reduce using rule 21 (function_declaration -> FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .)
-    $end            reduce using rule 21 (function_declaration -> FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .)
-    RBRACE          reduce using rule 21 (function_declaration -> FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .)
+    IDENTIFIER      reduce using rule 22 (function_declaration -> CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .)
+    SAY             reduce using rule 22 (function_declaration -> CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .)
+    CHECK           reduce using rule 22 (function_declaration -> CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .)
+    KEEP            reduce using rule 22 (function_declaration -> CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .)
+    REPEAT          reduce using rule 22 (function_declaration -> CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .)
+    CREATE          reduce using rule 22 (function_declaration -> CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .)
+    GIVE            reduce using rule 22 (function_declaration -> CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .)
+    NOT             reduce using rule 22 (function_declaration -> CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .)
+    LPAREN          reduce using rule 22 (function_declaration -> CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .)
+    NUMBER          reduce using rule 22 (function_declaration -> CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .)
+    FLOAT           reduce using rule 22 (function_declaration -> CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .)
+    STRING          reduce using rule 22 (function_declaration -> CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .)
+    $end            reduce using rule 22 (function_declaration -> CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .)
+    RBRACE          reduce using rule 22 (function_declaration -> CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE .)
 
 
 state 110
 
-    (18) if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE . statement_list RBRACE
+    (19) if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE . statement_list RBRACE
     (2) statement_list -> . statement_list statement
     (3) statement_list -> . statement
     (4) statement -> . assignment_statement
@@ -3205,17 +3206,17 @@ state 110
     (10) statement -> . function_declaration
     (11) statement -> . return_statement
     (12) statement -> . input_statement
-    (13) assignment_statement -> . IDENTIFIER ASSIGN expression SEMICOLON
+    (13) assignment_statement -> . IDENTIFIER IS expression SEMICOLON
     (15) expression_statement -> . expression SEMICOLON
-    (16) print_statement -> . PRINT LPAREN expression RPAREN SEMICOLON
-    (17) if_statement -> . IF LPAREN expression RPAREN LBRACE statement_list RBRACE
-    (18) if_statement -> . IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
-    (19) while_statement -> . WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE
-    (20) for_statement -> . FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
-    (21) function_declaration -> . FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
-    (29) return_statement -> . RETURN expression SEMICOLON
-    (30) input_statement -> . IDENTIFIER ASSIGN INPUT LPAREN RPAREN SEMICOLON
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (16) print_statement -> . SAY LPAREN expression RPAREN SEMICOLON
+    (18) if_statement -> . CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE
+    (19) if_statement -> . CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE
+    (20) while_statement -> . KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE
+    (21) for_statement -> . REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
+    (22) function_declaration -> . CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
+    (23) return_statement -> . GIVE expression SEMICOLON
+    (17) input_statement -> . IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -3236,12 +3237,12 @@ state 110
     (48) expression -> . IDENTIFIER
 
     IDENTIFIER      shift and go to state 13
-    PRINT           shift and go to state 15
-    IF              shift and go to state 17
-    WHILE           shift and go to state 18
-    FOR             shift and go to state 19
-    FUNCTION        shift and go to state 20
-    RETURN          shift and go to state 21
+    SAY             shift and go to state 15
+    CHECK           shift and go to state 17
+    KEEP            shift and go to state 18
+    REPEAT          shift and go to state 19
+    CREATE          shift and go to state 20
+    GIVE            shift and go to state 21
     NOT             shift and go to state 22
     LPAREN          shift and go to state 16
     NUMBER          shift and go to state 23
@@ -3263,7 +3264,7 @@ state 110
 
 state 111
 
-    (20) for_statement -> FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE . statement_list RBRACE
+    (21) for_statement -> REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE . statement_list RBRACE
     (2) statement_list -> . statement_list statement
     (3) statement_list -> . statement
     (4) statement -> . assignment_statement
@@ -3275,17 +3276,17 @@ state 111
     (10) statement -> . function_declaration
     (11) statement -> . return_statement
     (12) statement -> . input_statement
-    (13) assignment_statement -> . IDENTIFIER ASSIGN expression SEMICOLON
+    (13) assignment_statement -> . IDENTIFIER IS expression SEMICOLON
     (15) expression_statement -> . expression SEMICOLON
-    (16) print_statement -> . PRINT LPAREN expression RPAREN SEMICOLON
-    (17) if_statement -> . IF LPAREN expression RPAREN LBRACE statement_list RBRACE
-    (18) if_statement -> . IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
-    (19) while_statement -> . WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE
-    (20) for_statement -> . FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
-    (21) function_declaration -> . FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
-    (29) return_statement -> . RETURN expression SEMICOLON
-    (30) input_statement -> . IDENTIFIER ASSIGN INPUT LPAREN RPAREN SEMICOLON
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (16) print_statement -> . SAY LPAREN expression RPAREN SEMICOLON
+    (18) if_statement -> . CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE
+    (19) if_statement -> . CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE
+    (20) while_statement -> . KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE
+    (21) for_statement -> . REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
+    (22) function_declaration -> . CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
+    (23) return_statement -> . GIVE expression SEMICOLON
+    (17) input_statement -> . IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -3306,12 +3307,12 @@ state 111
     (48) expression -> . IDENTIFIER
 
     IDENTIFIER      shift and go to state 13
-    PRINT           shift and go to state 15
-    IF              shift and go to state 17
-    WHILE           shift and go to state 18
-    FOR             shift and go to state 19
-    FUNCTION        shift and go to state 20
-    RETURN          shift and go to state 21
+    SAY             shift and go to state 15
+    CHECK           shift and go to state 17
+    KEEP            shift and go to state 18
+    REPEAT          shift and go to state 19
+    CREATE          shift and go to state 20
+    GIVE            shift and go to state 21
     NOT             shift and go to state 22
     LPAREN          shift and go to state 16
     NUMBER          shift and go to state 23
@@ -3333,7 +3334,7 @@ state 111
 
 state 112
 
-    (18) if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list . RBRACE
+    (19) if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list . RBRACE
     (2) statement_list -> statement_list . statement
     (4) statement -> . assignment_statement
     (5) statement -> . expression_statement
@@ -3344,17 +3345,17 @@ state 112
     (10) statement -> . function_declaration
     (11) statement -> . return_statement
     (12) statement -> . input_statement
-    (13) assignment_statement -> . IDENTIFIER ASSIGN expression SEMICOLON
+    (13) assignment_statement -> . IDENTIFIER IS expression SEMICOLON
     (15) expression_statement -> . expression SEMICOLON
-    (16) print_statement -> . PRINT LPAREN expression RPAREN SEMICOLON
-    (17) if_statement -> . IF LPAREN expression RPAREN LBRACE statement_list RBRACE
-    (18) if_statement -> . IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
-    (19) while_statement -> . WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE
-    (20) for_statement -> . FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
-    (21) function_declaration -> . FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
-    (29) return_statement -> . RETURN expression SEMICOLON
-    (30) input_statement -> . IDENTIFIER ASSIGN INPUT LPAREN RPAREN SEMICOLON
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (16) print_statement -> . SAY LPAREN expression RPAREN SEMICOLON
+    (18) if_statement -> . CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE
+    (19) if_statement -> . CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE
+    (20) while_statement -> . KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE
+    (21) for_statement -> . REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
+    (22) function_declaration -> . CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
+    (23) return_statement -> . GIVE expression SEMICOLON
+    (17) input_statement -> . IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -3376,12 +3377,12 @@ state 112
 
     RBRACE          shift and go to state 114
     IDENTIFIER      shift and go to state 13
-    PRINT           shift and go to state 15
-    IF              shift and go to state 17
-    WHILE           shift and go to state 18
-    FOR             shift and go to state 19
-    FUNCTION        shift and go to state 20
-    RETURN          shift and go to state 21
+    SAY             shift and go to state 15
+    CHECK           shift and go to state 17
+    KEEP            shift and go to state 18
+    REPEAT          shift and go to state 19
+    CREATE          shift and go to state 20
+    GIVE            shift and go to state 21
     NOT             shift and go to state 22
     LPAREN          shift and go to state 16
     NUMBER          shift and go to state 23
@@ -3402,7 +3403,7 @@ state 112
 
 state 113
 
-    (20) for_statement -> FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list . RBRACE
+    (21) for_statement -> REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list . RBRACE
     (2) statement_list -> statement_list . statement
     (4) statement -> . assignment_statement
     (5) statement -> . expression_statement
@@ -3413,17 +3414,17 @@ state 113
     (10) statement -> . function_declaration
     (11) statement -> . return_statement
     (12) statement -> . input_statement
-    (13) assignment_statement -> . IDENTIFIER ASSIGN expression SEMICOLON
+    (13) assignment_statement -> . IDENTIFIER IS expression SEMICOLON
     (15) expression_statement -> . expression SEMICOLON
-    (16) print_statement -> . PRINT LPAREN expression RPAREN SEMICOLON
-    (17) if_statement -> . IF LPAREN expression RPAREN LBRACE statement_list RBRACE
-    (18) if_statement -> . IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
-    (19) while_statement -> . WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE
-    (20) for_statement -> . FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
-    (21) function_declaration -> . FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
-    (29) return_statement -> . RETURN expression SEMICOLON
-    (30) input_statement -> . IDENTIFIER ASSIGN INPUT LPAREN RPAREN SEMICOLON
-    (28) expression -> . IDENTIFIER LPAREN argument_list RPAREN
+    (16) print_statement -> . SAY LPAREN expression RPAREN SEMICOLON
+    (18) if_statement -> . CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE
+    (19) if_statement -> . CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE
+    (20) while_statement -> . KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE
+    (21) for_statement -> . REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE
+    (22) function_declaration -> . CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
+    (23) return_statement -> . GIVE expression SEMICOLON
+    (17) input_statement -> . IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON
+    (30) expression -> . IDENTIFIER LPAREN argument_list RPAREN
     (31) expression -> . expression PLUS expression
     (32) expression -> . expression MINUS expression
     (33) expression -> . expression TIMES expression
@@ -3445,12 +3446,12 @@ state 113
 
     RBRACE          shift and go to state 115
     IDENTIFIER      shift and go to state 13
-    PRINT           shift and go to state 15
-    IF              shift and go to state 17
-    WHILE           shift and go to state 18
-    FOR             shift and go to state 19
-    FUNCTION        shift and go to state 20
-    RETURN          shift and go to state 21
+    SAY             shift and go to state 15
+    CHECK           shift and go to state 17
+    KEEP            shift and go to state 18
+    REPEAT          shift and go to state 19
+    CREATE          shift and go to state 20
+    GIVE            shift and go to state 21
     NOT             shift and go to state 22
     LPAREN          shift and go to state 16
     NUMBER          shift and go to state 23
@@ -3471,42 +3472,42 @@ state 113
 
 state 114
 
-    (18) if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE .
+    (19) if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE .
 
-    IDENTIFIER      reduce using rule 18 (if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE .)
-    PRINT           reduce using rule 18 (if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE .)
-    IF              reduce using rule 18 (if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE .)
-    WHILE           reduce using rule 18 (if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE .)
-    FOR             reduce using rule 18 (if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE .)
-    FUNCTION        reduce using rule 18 (if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE .)
-    RETURN          reduce using rule 18 (if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE .)
-    NOT             reduce using rule 18 (if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE .)
-    LPAREN          reduce using rule 18 (if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE .)
-    NUMBER          reduce using rule 18 (if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE .)
-    FLOAT           reduce using rule 18 (if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE .)
-    STRING          reduce using rule 18 (if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE .)
-    $end            reduce using rule 18 (if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE .)
-    RBRACE          reduce using rule 18 (if_statement -> IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE .)
+    IDENTIFIER      reduce using rule 19 (if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE .)
+    SAY             reduce using rule 19 (if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE .)
+    CHECK           reduce using rule 19 (if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE .)
+    KEEP            reduce using rule 19 (if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE .)
+    REPEAT          reduce using rule 19 (if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE .)
+    CREATE          reduce using rule 19 (if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE .)
+    GIVE            reduce using rule 19 (if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE .)
+    NOT             reduce using rule 19 (if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE .)
+    LPAREN          reduce using rule 19 (if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE .)
+    NUMBER          reduce using rule 19 (if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE .)
+    FLOAT           reduce using rule 19 (if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE .)
+    STRING          reduce using rule 19 (if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE .)
+    $end            reduce using rule 19 (if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE .)
+    RBRACE          reduce using rule 19 (if_statement -> CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE OTHERWISE LBRACE statement_list RBRACE .)
 
 
 state 115
 
-    (20) for_statement -> FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .
+    (21) for_statement -> REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .
 
-    IDENTIFIER      reduce using rule 20 (for_statement -> FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .)
-    PRINT           reduce using rule 20 (for_statement -> FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .)
-    IF              reduce using rule 20 (for_statement -> FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .)
-    WHILE           reduce using rule 20 (for_statement -> FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .)
-    FOR             reduce using rule 20 (for_statement -> FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .)
-    FUNCTION        reduce using rule 20 (for_statement -> FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .)
-    RETURN          reduce using rule 20 (for_statement -> FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .)
-    NOT             reduce using rule 20 (for_statement -> FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .)
-    LPAREN          reduce using rule 20 (for_statement -> FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .)
-    NUMBER          reduce using rule 20 (for_statement -> FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .)
-    FLOAT           reduce using rule 20 (for_statement -> FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .)
-    STRING          reduce using rule 20 (for_statement -> FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .)
-    $end            reduce using rule 20 (for_statement -> FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .)
-    RBRACE          reduce using rule 20 (for_statement -> FOR LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .)
+    IDENTIFIER      reduce using rule 21 (for_statement -> REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .)
+    SAY             reduce using rule 21 (for_statement -> REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .)
+    CHECK           reduce using rule 21 (for_statement -> REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .)
+    KEEP            reduce using rule 21 (for_statement -> REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .)
+    REPEAT          reduce using rule 21 (for_statement -> REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .)
+    CREATE          reduce using rule 21 (for_statement -> REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .)
+    GIVE            reduce using rule 21 (for_statement -> REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .)
+    NOT             reduce using rule 21 (for_statement -> REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .)
+    LPAREN          reduce using rule 21 (for_statement -> REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .)
+    NUMBER          reduce using rule 21 (for_statement -> REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .)
+    FLOAT           reduce using rule 21 (for_statement -> REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .)
+    STRING          reduce using rule 21 (for_statement -> REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .)
+    $end            reduce using rule 21 (for_statement -> REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .)
+    RBRACE          reduce using rule 21 (for_statement -> REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE .)
 
 WARNING: 
 WARNING: Conflicts:

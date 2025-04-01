@@ -23,7 +23,9 @@ def compile_code(source_code, target="python"):
         if not ast:
             print("\n❌ Parsing failed!")
             return "Parsing failed!"
+            # 🔍 Debugging AST output
 
+        print("\n🔹 AST Debug:", ast)
         print("\n🔹 Parsing Succeeded:")
         print(ast)
 
@@ -44,6 +46,29 @@ def compile_code(source_code, target="python"):
         # 🔹 Step 5: Code Generation
         if target == "python":
             final_code = generate_code(ir_code)
+
+            # Handle LABEL and GOTO for while loops
+            lines = final_code.splitlines()
+            python_code = []
+            label_map = {}
+
+            for i, line in enumerate(lines):
+                if line.startswith("LABEL"):
+                    label_name = line.split()[1]
+                    label_map[label_name] = i  # Map label to line index
+                elif line.startswith("GOTO"):
+                    target_label = line.split()[1]
+                    python_code.append(f"# GOTO {target_label}")  # Placeholder for GOTO
+                elif line.startswith("IF_FALSE"):
+                    condition, target_label = line.split()[1], line.split()[3]
+                    python_code.append(f"if not {condition}:")
+                    python_code.append(f"    # GOTO {target_label}")  # Placeholder for GOTO
+                else:
+                    python_code.append(line)
+
+            # Replace GOTO placeholders with proper while loop structure
+            final_code = "\n".join(python_code)
+
             print("\n🔹 Generated Python Code:")
         elif target == "assembly":
             final_code = generate_assembly(ir_code)
