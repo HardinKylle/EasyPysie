@@ -3,28 +3,19 @@ from tkinter import scrolledtext
 from compiler import compile_code  # Import the updated compiler
 
 def run_compiler():
-    # Get the source code from the text area
     source_code = source_text.get("1.0", tk.END).strip()
-
-    # Run the compiler and capture execution output
     output = compile_code(source_code, target="python")  # Change target to "assembly" if needed
-
-    # Display the final execution output in the GUI
     output_text.config(state="normal")
     output_text.delete("1.0", tk.END)
     output_text.insert(tk.END, output)
     output_text.config(state="disabled")
 
 def show_commands():
-    """
-    Instead of using a messagebox, create a custom top-level window
-    to display the kid-friendly commands with colorful formatting.
-    """
     commands_window = tk.Toplevel(root)
     commands_window.title("Kid-Friendly Commands")
-    commands_window.configure(bg="#e0f7fa")  # Light pink background
+    commands_window.configure(bg="#e0f7fa")
+    commands_window.geometry("500x400")
 
-    # Big, bold title label
     title_label = tk.Label(
         commands_window,
         text="Kid-Friendly Commands",
@@ -32,9 +23,8 @@ def show_commands():
         fg="#ad1457",
         font=("Comic Sans MS", 16, "bold")
     )
-    title_label.pack(pady=(10, 5))
+    title_label.pack(pady=10)
 
-    # Scrolled text widget to display commands
     commands_text = scrolledtext.ScrolledText(
         commands_window,
         width=50,
@@ -45,20 +35,17 @@ def show_commands():
     )
     commands_text.pack(pady=5, padx=10)
 
-# Insert colorful/emoji-rich text
     commands_text.insert(tk.END, "👋 Hello, Kids! Here are some commands you can try:\n\n")
     commands_text.insert(tk.END, "💬 say(\"Your message\"): Prints a message.\n")
     commands_text.insert(tk.END, "❓ ask(): Prompts the user for input.\n")
+    commands_text.insert(tk.END, "✅ check (condition) { ... } otherwise { ... }: Conditional checks.\n\n")
     commands_text.insert(tk.END, "🔢 keep (<condition>) { ... }: Simple loops.\n")
     commands_text.insert(tk.END, "🔂 repeat \"word\" <number> times: Repeats a word a set number of times.\n")
     commands_text.insert(tk.END, "💪 create function_name(parameters) { ... }: Defines a function.\n")
-    commands_text.insert(tk.END, "✅ check (condition) { ... } otherwise { ... }: Conditional checks.\n\n")
     commands_text.insert(tk.END, "Have fun coding! 🎉\n")
 
-    # Make text read-only
     commands_text.config(state="disabled")
 
-    # A friendly 'Close' button
     close_button = tk.Button(
         commands_window,
         text="Got it!",
@@ -69,81 +56,75 @@ def show_commands():
     )
     close_button.pack(pady=10)
 
-# Create the main window with a friendly theme
 root = tk.Tk()
 root.title("EasyPysie Compiler - Kid Edition")
 root.configure(bg="#e0f7fa")
+root.state("zoomed")  # Make the window full screen
 
-# Create a frame for the source code input
 input_frame = tk.Frame(root, bg="#e0f7fa")
-input_frame.pack(padx=10, pady=10)
+input_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=10)
 
-# Label for source code
 source_label = tk.Label(
     input_frame,
     text="Enter your source code:",
     bg="#e0f7fa",
-    font=("Comic Sans MS", 12, "bold")
+    font=("Comic Sans MS", 14, "bold")
 )
 source_label.pack(anchor="w")
 
-# Scrolled text area for source code input
 source_text = scrolledtext.ScrolledText(
     input_frame,
-    width=80,
-    height=15,
-    font=("Comic Sans MS", 11),
+    width=100,
+    height=20,
+    font=("Comic Sans MS", 12),
     bg="#ffffff"
 )
-source_text.pack()
+source_text.pack(fill=tk.BOTH, expand=True)
 
-# Frame for buttons
 button_frame = tk.Frame(root, bg="#e0f7fa")
-button_frame.pack(pady=5)
+button_frame.pack(pady=10)
 
-# Add a button to run the compiler
 run_button = tk.Button(
     button_frame,
     text="Compile",
     command=run_compiler,
-    font=("Comic Sans MS", 11),
+    font=("Comic Sans MS", 12, "bold"),
     bg="#4caf50",
-    fg="white"
+    fg="white",
+    width=12
 )
-run_button.grid(row=0, column=0, padx=5)
+run_button.grid(row=0, column=0, padx=10)
 
-# Button to show kid-friendly commands
 commands_button = tk.Button(
     button_frame,
     text="Show Commands",
     command=show_commands,
-    font=("Comic Sans MS", 11),
+    font=("Comic Sans MS", 12, "bold"),
     bg="#2196f3",
-    fg="white"
+    fg="white",
+    width=12
 )
-commands_button.grid(row=0, column=1, padx=5)
+commands_button.grid(row=0, column=1, padx=10)
 
-# Create a frame for output
 output_frame = tk.Frame(root, bg="#e0f7fa")
-output_frame.pack(padx=10, pady=10)
+output_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=10)
 
 output_label = tk.Label(
     output_frame,
     text="Compiler Output:",
     bg="#e0f7fa",
-    font=("Comic Sans MS", 12, "bold")
+    font=("Comic Sans MS", 14, "bold")
 )
 output_label.pack(anchor="w")
 
 output_text = scrolledtext.ScrolledText(
     output_frame,
-    width=80,
+    width=100,
     height=10,
-    font=("Comic Sans MS", 11),
+    font=("Comic Sans MS", 12),
     bg="#ffffff",
     state="disabled"
 )
-output_text.pack()
+output_text.pack(fill=tk.BOTH, expand=True)
 
-# Start the GUI event loop
 root.mainloop()
