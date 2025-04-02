@@ -158,5 +158,36 @@ def generate_ir(node):
         instr = f"{temp} = {func_name}({', '.join(arg_results)})"
         return (temp, arg_code + [instr])
     
+    elif node_type == 'repeat':
+        count_expr = node[1]
+        body = node[2]
+        
+        count_result, count_code = generate_ir(count_expr)
+        loop_counter = new_temp()
+        init_code = count_code + [f"{loop_counter} = 0"]
+        
+        condition_temp = new_temp()
+        condition_code = [f"{condition_temp} = {loop_counter} < {count_result}"]
+        
+        body_ir = []
+        for stmt in body:
+            _, stmt_code = generate_ir(stmt)
+            body_ir.extend(stmt_code)
+        increment_code = [f"{loop_counter} = {loop_counter} + 1"]
+        
+        start_label = new_temp()
+        end_label = new_temp()
+        
+        ir_code = init_code + [
+            f"LABEL {start_label}",
+            *condition_code,
+            f"IF_FALSE {condition_temp} GOTO {end_label}",
+            *body_ir,
+            *increment_code,
+            f"GOTO {start_label}",
+            f"LABEL {end_label}"
+        ]
+        return (None, ir_code)
+    
     else:
         raise NotImplementedError(f"IR generation not implemented for node type: {node_type}")

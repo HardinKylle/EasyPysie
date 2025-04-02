@@ -1,3 +1,4 @@
+#lexer.py
 import ply.lex as lex
 
 # List of token names.
@@ -104,11 +105,7 @@ if __name__ == "__main__":
     keep (a > 0) {
         a = a - 1;
     }
-    repeat (i = 0; i < 10; i = i + 1) {
-        say(i);
-    }
-    c = ask();
-    a is 3 + 4;
+    
     '''
     lexer.input(data)
     for tok in lexer:

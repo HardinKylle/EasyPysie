@@ -168,6 +168,14 @@ def semantic_analysis(node, local_scope=None):
     elif node_type == 'return':
         expr_type = semantic_analysis(node[1], local_scope)
         return expr_type
+    
+    elif node_type == 'repeat':
+        count_type = semantic_analysis(node[1], local_scope)
+        if count_type != 'int':
+            raise TypeError(f"Repeat count must be an integer, got {count_type}")
+        for stmt in node[2]:
+            semantic_analysis(stmt, local_scope)
+        return None
 
     else:
         raise NotImplementedError(f"Semantic analysis not implemented for node type: {node_type}")

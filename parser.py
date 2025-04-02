@@ -33,7 +33,7 @@ def p_statement(p):
                  | print_statement
                  | if_statement
                  | while_statement
-                 | for_statement
+                 | repeat_statement
                  | function_declaration
                  | return_statement
                  | input_statement'''
@@ -72,9 +72,6 @@ def p_while_statement(p):
     'while_statement : KEEP LPAREN expression RPAREN LBRACE statement_list RBRACE'
     p[0] = ('while', p[3], p[6])  # keep → while
 
-def p_for_statement(p):
-    'for_statement : REPEAT LPAREN assignment_expression SEMICOLON expression SEMICOLON assignment_expression RPAREN LBRACE statement_list RBRACE'
-    p[0] = ('for', p[3], p[5], p[7], p[10])  # repeat → for
 
 def p_function_declaration(p):
     'function_declaration : CREATE IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE'
@@ -83,6 +80,10 @@ def p_function_declaration(p):
 def p_return_statement(p):
     'return_statement : GIVE expression SEMICOLON'
     p[0] = ('return', p[2])  # give → return
+
+def p_repeat_statement(p):
+    'repeat_statement : REPEAT expression LBRACE statement_list RBRACE'
+    p[0] = ('repeat', p[2], p[4])  # repeat → for
 
 def p_parameter_list(p):
     '''parameter_list : parameter_list COMMA IDENTIFIER
@@ -184,15 +185,6 @@ if __name__ == "__main__":
         say("a is 10 or more");
     }
     
-    keep (a > 0) {
-        a = a - 1;
-    }
-    
-    repeat (i = 0; i < 10; i = i + 1) {
-        say(i);
-    }
-    
-    c = ask();
     """
     result = parser.parse(data)
     if result is None:
