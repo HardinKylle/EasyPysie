@@ -45,12 +45,14 @@ def show_commands():
     )
     commands_text.pack(pady=5, padx=10)
 
-    # Insert colorful/emoji-rich text
+# Insert colorful/emoji-rich text
     commands_text.insert(tk.END, "👋 Hello, Kids! Here are some commands you can try:\n\n")
-    commands_text.insert(tk.END, "🗣️ say(\"Your message\"): Prints a message.\n")
+    commands_text.insert(tk.END, "💬 say(\"Your message\"): Prints a message.\n")
     commands_text.insert(tk.END, "❓ ask(): Prompts the user for input.\n")
-    commands_text.insert(tk.END, "🔁 count is <number>; and keep (<condition>) { ... }: Simple loops.\n")
-    commands_text.insert(tk.END, "🔂 repeat \"word\" <number> times: \n\n")
+    commands_text.insert(tk.END, "🔢 keep (<condition>) { ... }: Simple loops.\n")
+    commands_text.insert(tk.END, "🔂 repeat \"word\" <number> times: Repeats a word a set number of times.\n")
+    commands_text.insert(tk.END, "💪 create function_name(parameters) { ... }: Defines a function.\n")
+    commands_text.insert(tk.END, "✅ check (condition) { ... } otherwise { ... }: Conditional checks.\n\n")
     commands_text.insert(tk.END, "Have fun coding! 🎉\n")
 
     # Make text read-only
