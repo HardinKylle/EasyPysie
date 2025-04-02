@@ -57,8 +57,12 @@ def p_print_statement(p):
     p[0] = ('print', p[3])  # say → print
 
 def p_input_statement(p):
-    'input_statement : IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON'
-    p[0] = ('input', p[1])  # ask → input
+    '''input_statement : IDENTIFIER IS ASK LPAREN RPAREN SEMICOLON
+                       | IDENTIFIER IS ASK LPAREN expression RPAREN SEMICOLON'''
+    if len(p) == 7:
+        p[0] = ('input', p[1], None)  # No prompt
+    else:
+        p[0] = ('input', p[1], p[5])  # With prompt
 
 def p_if_statement(p):
     '''if_statement : CHECK LPAREN expression RPAREN LBRACE statement_list RBRACE

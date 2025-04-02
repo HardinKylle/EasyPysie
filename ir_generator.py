@@ -15,7 +15,8 @@ def generate_ir(node):
     
     elif node_type == 'input':  # Handle user input
         var_name = node[1]
-        instr = f"{var_name} = input()"
+        prompt = node[2] if node[2] else '""'
+        instr = f"{var_name} = input({prompt})"
         return (var_name, [instr])
     
     elif node_type == 'float':  # Add support for float

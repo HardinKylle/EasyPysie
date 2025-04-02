@@ -37,7 +37,6 @@ def compile_code(source_code, target="python"):
             print("\n❌ Parsing failed!")
             return "Parsing failed!"
 
-        print("\n🔹 AST Debug:", ast)
         print("\n🔹 Parsing Succeeded:")
         print(ast)
 
