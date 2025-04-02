@@ -1,3 +1,5 @@
+#compiler.py
+
 import sys
 from io import StringIO
 import tkinter as tk

@@ -11,7 +11,7 @@ def generate_ir(node):
     node_type = node[0]
     
     if node_type == 'number':
-        return (node[1], [])
+        return (str(node[1]), [])
     
     elif node_type == 'input':  # Handle user input
         var_name = node[1]
@@ -32,14 +32,10 @@ def generate_ir(node):
         left_result, left_code = generate_ir(node[2])
         right_result, right_code = generate_ir(node[3])
         
-        if op == '+':  # Handle addition or string concatenation
-            # Check if either operand is a string
-            if node[2][0] == 'string' or node[3][0] == 'string':
-                temp = new_temp()
-                instr = f"{temp} = str({left_result}) + str({right_result})"
-            else:
-                temp = new_temp()
-                instr = f"{temp} = {left_result} + {right_result}"
+        if op == '+':
+            # Always convert to strings if either operand is a string or if we can't determine types
+            temp = new_temp()
+            instr = f"{temp} = str({left_result}) + str({right_result})"
         else:
             temp = new_temp()
             instr = f"{temp} = {left_result} {op} {right_result}"
@@ -121,8 +117,46 @@ def generate_ir(node):
             f"GOTO {start_label}",
             f"LABEL {end_label}"
         ]
-        return (None, ir_code)
 
+        return (None, ir_code)
+    
+    elif node_type == 'function':
+        # Generate IR for function declarations as Python function definitions.
+        func_name = node[1]
+        params = node[2]
+        body_code = []
+        for stmt in node[3]:
+            _, stmt_code = generate_ir(stmt)
+            body_code.extend(stmt_code)
+        # Construct the function definition as a Python code string.
+        func_def = f"def {func_name}({', '.join(params)}):\n"
+        if not body_code:
+            func_def += "    pass\n"
+        else:
+            for line in body_code:
+                func_def += "    " + line + "\n"
+        return (None, [func_def])
+    
+    elif node_type == 'return':
+        # Generate IR for a return statement.
+        expr_result, expr_code = generate_ir(node[1])
+        instr = f"return {expr_result}"
+        return (None, expr_code + [instr])
+    
+    elif node_type == 'call':  
+        func_name = node[1]
+        args = node[2]
+        
+        arg_results = []
+        arg_code = []
+        for arg in args:
+            result, code = generate_ir(arg)
+            arg_results.append(result)
+            arg_code.extend(code)
+        
+        temp = new_temp()
+        instr = f"{temp} = {func_name}({', '.join(arg_results)})"
+        return (temp, arg_code + [instr])
     
     else:
         raise NotImplementedError(f"IR generation not implemented for node type: {node_type}")

@@ -1,30 +1,45 @@
-#semantic.py
+# semantic.py
 
-symbol_table = {}  # Stores variable types
+symbol_table = {}     # Stores variable types (global variables)
+function_table = {}   # Stores function definitions
 
-def semantic_analysis(node):
-    """Recursively analyze AST nodes."""
+def semantic_analysis(node, local_scope=None):
+    """
+    Recursively analyze AST nodes.
+    Optionally, a local_scope (dictionary) may be passed for function parameters.
+    """
+    # Helper function to lookup a variable in local scope first, then global.
+    def lookup(var):
+        if local_scope and var in local_scope:
+            return local_scope[var]
+        elif var in symbol_table:
+            return symbol_table[var]
+        else:
+            raise NameError(f"Oops! You forgot to create the variable '{var}' before using it.")
+
     node_type = node[0]
 
     if node_type == 'program':
         for stmt in node[1]:
-            semantic_analysis(stmt)
+            semantic_analysis(stmt, local_scope)
         return None
 
     elif node_type == 'assign':
         var_name = node[1]
-        expr_type = semantic_analysis(node[2])
-        symbol_table[var_name] = expr_type  # Store variable type
+        expr_type = semantic_analysis(node[2], local_scope)
+        if local_scope is not None:
+            local_scope[var_name] = expr_type
+        else:
+            symbol_table[var_name] = expr_type
         return expr_type
 
     elif node_type == 'binop':
         operator = node[1]
-        left_type = semantic_analysis(node[2])
-        right_type = semantic_analysis(node[3])
+        left_type = semantic_analysis(node[2], local_scope)
+        right_type = semantic_analysis(node[3], local_scope)
 
-        if operator == '+':  # Handle addition
+        if operator == '+':  # Handle addition or string concatenation
             if left_type == "string" or right_type == "string":
-                # Allow string concatenation with numbers by converting numbers to strings
                 if left_type not in ("string", "int", "float") or right_type not in ("string", "int", "float"):
                     raise TypeError(f"Oops! You can only use numbers or strings with '{operator}'.")
                 return "string"
@@ -34,34 +49,30 @@ def semantic_analysis(node):
                 raise TypeError(f"Oops! You can only use numbers or strings with '{operator}'.")
         elif operator in ('-', '*', '/'):
             if left_type not in ('int', 'float') or right_type not in ('int', 'float'):
-                raise TypeError(f"Oops! You can only use numbers with '{operator}'.")
+                raise TypeError(f"Oops! You can only use numbers with '{operator}'. Got types {left_type} and {right_type}.")
             return 'float' if left_type == 'float' or right_type == 'float' else 'int'
-
         elif operator in ('==', '!=', '<', '>', '<=', '>='):
             if left_type != right_type:
                 raise TypeError(f"Comparison '{operator}' requires operands of the same type")
             return 'bool'
-
         elif operator in ('&&', '||'):
             if left_type != 'bool' or right_type != 'bool':
                 raise TypeError(f"Logical operator '{operator}' requires boolean operands")
             return 'bool'
-
         else:
             raise NotImplementedError(f"Unknown operator: {operator}")
 
-    elif node_type == 'logic':  # Add support for logical operations
+    elif node_type == 'logic':  # For logical operations, similar to binop.
         operator = node[1]
-        left_type = semantic_analysis(node[2])
-        right_type = semantic_analysis(node[3])
-
+        left_type = semantic_analysis(node[2], local_scope)
+        right_type = semantic_analysis(node[3], local_scope)
         if operator in ('&&', '||'):
             if left_type != 'bool' or right_type != 'bool':
                 raise TypeError(f"Logical operator '{operator}' requires boolean operands, got {left_type} and {right_type}")
             return 'bool'
 
     elif node_type == 'number':
-        return 'int'  # Assume integers; modify if floats are separately detected
+        return 'int'  # Assuming number literals are integers
 
     elif node_type == 'float':
         return 'float'
@@ -71,53 +82,92 @@ def semantic_analysis(node):
 
     elif node_type == 'var':
         var_name = node[1]
-        if var_name not in symbol_table:
-            raise NameError(f"Oops! You forgot to create the variable '{var_name}' before using it.")  # Kid-friendly error
-        return symbol_table[var_name]
+        return lookup(var_name)
 
     elif node_type == 'expr':
-        return semantic_analysis(node[1])
+        return semantic_analysis(node[1], local_scope)
 
     elif node_type == 'print':
-        expr_type = semantic_analysis(node[1])
+        expr_type = semantic_analysis(node[1], local_scope)
         if expr_type not in ('int', 'float', 'string', 'bool'):
             raise TypeError(f"Cannot print value of type {expr_type}")
         return None
 
     elif node_type == 'not':
-        expr_type = semantic_analysis(node[1])
+        expr_type = semantic_analysis(node[1], local_scope)
         if expr_type != 'bool':
             raise TypeError(f"NOT operation requires boolean, got {expr_type}")
         return 'bool'
     
     elif node_type == 'ifelse':  # Handle if-else statements
-        condition_type = semantic_analysis(node[1])  # Analyze the condition
-        if condition_type != 'int' and condition_type != 'bool':  # Ensure condition is valid
+        condition_type = semantic_analysis(node[1], local_scope)
+        if condition_type not in ('int', 'bool'):
             raise Exception("Condition in 'check' must evaluate to an integer or boolean.")
-        
-        for stmt in node[2]:  # Analyze the 'if' block
-            semantic_analysis(stmt)
-        
-        if len(node) > 3:  # If there's an 'otherwise' block
+        for stmt in node[2]:
+            semantic_analysis(stmt, local_scope)
+        if len(node) > 3:
             for stmt in node[3]:
-                semantic_analysis(stmt)
+                semantic_analysis(stmt, local_scope)
         return None
 
     elif node_type == 'input':
         var_name = node[1]
-        # Assume input always returns a string.
-        symbol_table[var_name] = 'string'
+        if local_scope is not None:
+            local_scope[var_name] = 'string'
+        else:
+            symbol_table[var_name] = 'string'
         return 'string'
     
     elif node_type == 'while':
-        condition_type = semantic_analysis(node[1])
-        # You can decide whether to restrict the condition type.
-        # For instance, if you expect a boolean (or even int) condition:
+        condition_type = semantic_analysis(node[1], local_scope)
         if condition_type not in ('bool', 'int'):
             raise TypeError("Condition in 'keep' must evaluate to a boolean or integer.")
         for stmt in node[2]:
-            semantic_analysis(stmt)
+            semantic_analysis(stmt, local_scope)
         return None
-        
+
+    elif node_type == 'function':
+        func_name = node[1]
+        params = node[2]
+        body = node[3]
+        if func_name in function_table:
+            raise NameError(f"Oops! The function '{func_name}' is already defined.")
+        function_table[func_name] = {
+            "params": params,
+            "body": body
+        }
+        for param in params:
+            symbol_table[param] = 'unknown'
+        return None
+
+    elif node_type == 'call':
+        func_name = node[1]
+        args = node[2]
+        if func_name not in function_table:
+            raise NameError(f"Oops! You tried to call the function '{func_name}', but it is not defined.")
+        func_def = function_table[func_name]
+        if len(args) != len(func_def["params"]):
+            raise TypeError(f"Oops! The function '{func_name}' expects {len(func_def['params'])} arguments, but got {len(args)}.")
+        local_call_scope = {}
+        for i, param in enumerate(func_def["params"]):
+            arg_type = semantic_analysis(args[i], local_scope)
+            local_call_scope[param] = arg_type
+            symbol_table[param] = arg_type
+        ret_type = None
+        for stmt in func_def["body"]:
+            # If a return statement is found, capture its type.
+            if stmt[0] == 'return':
+                ret_type = semantic_analysis(stmt, local_call_scope)
+                break
+            else:
+                semantic_analysis(stmt, local_call_scope)
+        if ret_type is None:
+            ret_type = 'void'
+        return ret_type
+
+    elif node_type == 'return':
+        expr_type = semantic_analysis(node[1], local_scope)
+        return expr_type
+
     else:
         raise NotImplementedError(f"Semantic analysis not implemented for node type: {node_type}")
