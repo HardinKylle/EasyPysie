@@ -8,7 +8,7 @@ def run_compiler():
     Compile the source code entered in the UI and display the output.
     """
     source_code = source_text.get("1.0", tk.END).strip()
-    output = compile_code(source_code, target="python")  # Change target to "assembly" if needed
+    output = compile_code(source_code, target="python") 
     output_text.config(state="normal")
     output_text.delete("1.0", tk.END)
     output_text.insert(tk.END, output)
