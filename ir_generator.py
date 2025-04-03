@@ -1,33 +1,46 @@
 # ir_generator.py
 
-temp_counter = 0  # Counter for temporary variables
+# Counter for generating unique temporary variables.
+temp_counter = 0
 
 def new_temp():
+    """
+    Generate a new temporary variable name.
+    """
     global temp_counter
     temp_counter += 1
     return f"t{temp_counter}"
 
 def generate_ir(node):
+    """
+    Generate Intermediate Representation (IR) for the given AST node.
+    """
     node_type = node[0]
-    
+
+    # Handle number literals.
     if node_type == 'number':
         return (str(node[1]), [])
     
-    elif node_type == 'input':  # Handle user input
+    # Handle input statements.
+    elif node_type == 'input':
         var_name = node[1]
         prompt = node[2] if node[2] else '""'
         instr = f"{var_name} = input({prompt})"
         return (var_name, [instr])
     
-    elif node_type == 'float':  # Add support for float
+    # Handle float literals.
+    elif node_type == 'float':
         return (node[1], [])
     
+    # Handle variable usage.
     elif node_type == 'var':
         return (node[1], [])
     
-    elif node_type == 'string':  # Add support for string
+    # Handle string literals.
+    elif node_type == 'string':
         return (f'"{node[1]}"', [])
     
+    # Handle binary operations.
     elif node_type == 'binop':
         op = node[1]
         left_result, left_code = generate_ir(node[2])
@@ -43,13 +56,15 @@ def generate_ir(node):
         
         return (temp, left_code + right_code + [instr])
     
+    # Handle variable assignment.
     elif node_type == 'assign':
         var_name = node[1]
         expr_result, expr_code = generate_ir(node[2])
         instr = f"{var_name} = {expr_result}"
         return (var_name, expr_code + [instr])
     
-    elif node_type == 'logic':  # Add support for logical operations
+    # Handle logical operations.
+    elif node_type == 'logic':
         op = node[1]
         left_result, left_code = generate_ir(node[2])
         right_result, right_code = generate_ir(node[3])
@@ -58,6 +73,7 @@ def generate_ir(node):
         instr = f"{temp} = {left_result} {op} {right_result}"
         return (temp, left_code + right_code + [instr])
     
+    # Handle program node (list of statements).
     elif node_type == 'program':
         code = []
         for stmt in node[1]:
@@ -65,12 +81,14 @@ def generate_ir(node):
             code.extend(stmt_code)
         return (None, code)
     
+    # Handle print statements.
     elif node_type == 'print':
         expr_result, expr_code = generate_ir(node[1])
         instr = f"PRINT {expr_result}"
         return (None, expr_code + [instr])
     
-    elif node_type == 'ifelse':  # Handle if-else statements
+    # Handle if-else statements.
+    elif node_type == 'ifelse':
         condition_result, condition_code = generate_ir(node[1])  # Generate IR for the condition
         if_block_code = []
         for stmt in node[2]:  # Generate IR for the 'if' block
@@ -100,6 +118,7 @@ def generate_ir(node):
         
         return (None, ir_code)
     
+    # Handle while loops.
     elif node_type == 'while':
         condition_result, condition_code = generate_ir(node[1])
         body_code = []
@@ -121,15 +140,14 @@ def generate_ir(node):
 
         return (None, ir_code)
     
+    # Handle function declarations.
     elif node_type == 'function':
-        # Generate IR for function declarations as Python function definitions.
         func_name = node[1]
         params = node[2]
         body_code = []
         for stmt in node[3]:
             _, stmt_code = generate_ir(stmt)
             body_code.extend(stmt_code)
-        # Construct the function definition as a Python code string.
         func_def = f"def {func_name}({', '.join(params)}):\n"
         if not body_code:
             func_def += "    pass\n"
@@ -138,13 +156,14 @@ def generate_ir(node):
                 func_def += "    " + line + "\n"
         return (None, [func_def])
     
+    # Handle return statements.
     elif node_type == 'return':
-        # Generate IR for a return statement.
         expr_result, expr_code = generate_ir(node[1])
         instr = f"return {expr_result}"
         return (None, expr_code + [instr])
     
-    elif node_type == 'call':  
+    # Handle function calls.
+    elif node_type == 'call':
         func_name = node[1]
         args = node[2]
         
@@ -159,6 +178,7 @@ def generate_ir(node):
         instr = f"{temp} = {func_name}({', '.join(arg_results)})"
         return (temp, arg_code + [instr])
     
+    # Handle repeat loops.
     elif node_type == 'repeat':
         count_expr = node[1]
         body = node[2]
@@ -190,5 +210,6 @@ def generate_ir(node):
         ]
         return (None, ir_code)
     
+    # Raise an error for unsupported node types.
     else:
         raise NotImplementedError(f"IR generation not implemented for node type: {node_type}")

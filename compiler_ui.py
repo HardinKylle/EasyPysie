@@ -1,8 +1,12 @@
+# Import necessary modules and components.
 import tkinter as tk
 from tkinter import scrolledtext
 from compiler import compile_code  # Import the updated compiler
 
 def run_compiler():
+    """
+    Compile the source code entered in the UI and display the output.
+    """
     source_code = source_text.get("1.0", tk.END).strip()
     output = compile_code(source_code, target="python")  # Change target to "assembly" if needed
     output_text.config(state="normal")
@@ -11,6 +15,9 @@ def run_compiler():
     output_text.config(state="disabled")
 
 def show_commands():
+    """
+    Display a window with a list of kid-friendly commands.
+    """
     commands_window = tk.Toplevel(root)
     commands_window.title("Kid-Friendly Commands")
     commands_window.configure(bg="#e0f7fa")
@@ -56,6 +63,7 @@ def show_commands():
     )
     close_button.pack(pady=10)
 
+# Create the main application window.
 root = tk.Tk()
 root.title("EasyPysie Compiler - Kid Edition")
 root.configure(bg="#e0f7fa")

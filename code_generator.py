@@ -1,6 +1,9 @@
 #code_generator.py
 
 def generate_code(ir_code):
+    """
+    Generate Python code from Intermediate Representation (IR).
+    """
     python_code = []
     i = 0
     while i < len(ir_code):
@@ -97,7 +100,7 @@ def generate_code(ir_code):
 
 def generate_assembly(ir_code):
     """
-    Converts Three-Address Code (TAC) into x86-like assembly.
+    Generate x86-like assembly code from Intermediate Representation (IR).
     """
     assembly_code = []
     

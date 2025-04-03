@@ -1,5 +1,6 @@
 #compiler.py
 
+# Import necessary modules and components.
 import sys
 from io import StringIO
 import tkinter as tk
@@ -11,6 +12,10 @@ from ir_generator import generate_ir
 from code_generator import generate_code, generate_assembly
 
 def my_input(prompt=""):
+    """
+    Custom input function using a GUI dialog.
+    Creates a temporary hidden Tkinter window to prompt the user for input.
+    """
     # Create a temporary hidden Tkinter window
     root = tk.Tk()
     root.withdraw()  # Hide the root window
@@ -21,17 +26,19 @@ def my_input(prompt=""):
 
 def compile_code(source_code, target="python"):
     """
-    Full compilation pipeline: Lexing, Parsing, Semantic Analysis, IR, Code Generation.
+    Full compilation pipeline: Lexing, Parsing, Semantic Analysis, IR, and Code Generation.
     The final execution output is returned for the GUI.
     """
     try:
         # 🔹 Step 1: Lexical Analysis
+        # Tokenize the source code using the lexer.
         lexer.input(source_code)
         print("\n🔹 Lexical Analysis:")
         for tok in lexer:
             print(tok)
 
         # 🔹 Step 2: Parsing
+        # Parse the tokenized input to generate an Abstract Syntax Tree (AST).
         ast = parser.parse(source_code)
         if not ast:
             print("\n❌ Parsing failed!")
@@ -41,6 +48,7 @@ def compile_code(source_code, target="python"):
         print(ast)
 
         # 🔹 Step 3: Semantic Analysis
+        # Perform semantic checks on the AST to ensure correctness.
         try:
             semantic_analysis(ast)
             print("\n✅ Semantic Analysis Passed!")
@@ -49,12 +57,14 @@ def compile_code(source_code, target="python"):
             return f"Semantic Analysis Error: {e}"
 
         # 🔹 Step 4: Intermediate Representation (IR)
+        # Generate an intermediate representation of the code.
         _, ir_code = generate_ir(ast)
         print("\n🔹 Intermediate Representation (IR):")
         for instr in ir_code:
             print(instr)
 
         # 🔹 Step 5: Code Generation
+        # Generate target code (Python or Assembly) from the IR.
         if target == "python":
             final_code = generate_code(ir_code)
 
@@ -90,6 +100,7 @@ def compile_code(source_code, target="python"):
         print(final_code)
 
         # 🔹 Step 6: Execute Python Code and Capture Output (Only for Python target)
+        # Run the generated Python code and capture its output.
         if target == "python":
             return execute_code(final_code)
         else:
@@ -99,7 +110,8 @@ def compile_code(source_code, target="python"):
 
 def execute_code(code):
     """
-    Executes the given Python code and captures its output.
+    Execute the generated Python code and capture its output.
+    Redirects stdout to capture the output of the executed code.
     """
     try:
         old_stdout = sys.stdout
@@ -116,7 +128,9 @@ def execute_code(code):
         sys.stdout = old_stdout
         return f"Execution Error: {e}"
 
+# Test the compiler with sample input.
 if __name__ == "__main__":
+    # Sample source code to test the compiler.
     source_code = """
     count is 3;
     
